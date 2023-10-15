@@ -1,13 +1,16 @@
 /* eslint-disable react-native/no-inline-styles */
 import { ImageBackground, View } from 'react-native';
 import React, { useState } from 'react';
-import { Text, TextInput, Button } from 'react-native-paper';
+import { Text, TextInput, Button, useTheme } from 'react-native-paper';
 import type { RootStackParamList } from '../../types';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import LinearGradient from 'react-native-linear-gradient';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
 export default function Login({ navigation }: Props) {
+  const theme = useTheme();
+
   const [credentials, setCredentials] = useState({
     email: '',
     password: '',
@@ -29,15 +32,21 @@ export default function Login({ navigation }: Props) {
         height={300}
         resizeMode="cover"
         className="w-full h-[380]">
-        <View className="flex-1 justify-end p-4 gap-y-3">
-          <Text variant="displayLarge" className="font-extrabold">
-            Welcome
-          </Text>
-          <Text variant="titleLarge" className="font-bold">
-            {' '}
-            Sign in to continue.
-          </Text>
-        </View>
+        <LinearGradient
+          start={{ x: 0, y: 0 }}
+          end={{ x: 0, y: 1 }}
+          colors={['rgba(126, 123, 253, 0.06)', theme.colors.background]}
+          style={{ flex: 1 }}>
+          <View className="flex-1 justify-end p-4 gap-y-3">
+            <Text variant="displayLarge" className="font-extrabold">
+              Welcome
+            </Text>
+            <Text variant="titleLarge" className="font-bold">
+              {' '}
+              Sign in to continue.
+            </Text>
+          </View>
+        </LinearGradient>
       </ImageBackground>
       <View className="flex-1 p-4 gap-y-2 items-center">
         <TextInput

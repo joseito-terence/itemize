@@ -28,7 +28,7 @@ export default function Register({ navigation }: Props) {
         height={300}
         resizeMode="cover"
         className="w-full h-[300]">
-        <View className="flex-1 justify-end p-4 gap-y-3 bg-white/30 ">
+        <View className="flex-1 justify-end p-4 gap-y-3 bg-white/30 dark:bg-black/60 ">
           <Text variant="displayLarge" className="font-extrabold">
             Let's Get Started
           </Text>

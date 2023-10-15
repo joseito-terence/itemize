@@ -57,7 +57,7 @@ const BottomTabs = () => {
       <Tab.Screen
         name="AddItem"
         component={AddItem}
-        options={{ tabBarIcon: 'camera-plus-outline' }}
+        options={{ tabBarIcon: 'camera-plus-outline', title: 'Add Item' }}
       />
       <Tab.Screen
         name="Settings"

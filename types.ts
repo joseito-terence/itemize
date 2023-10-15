@@ -1,5 +1,12 @@
 export type RootStackParamList = {
   Login: undefined;
   Register: undefined;
-  Tabs: undefined;
+  BottomTabs: undefined;
+};
+
+export type BottomTabsParamList = {
+  Home: undefined;
+  Search: undefined;
+  AddItem: undefined;
+  Settings: undefined;
 };

@@ -17,7 +17,9 @@ export default function Login({ navigation }: Props) {
     setCredentials(prev => ({ ...prev, [key]: value }));
   };
 
-  const signIn = () => {};
+  const signIn = () => {
+    navigation.navigate('BottomTabs');
+  };
 
   return (
     <View className="flex-1">

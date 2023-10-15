@@ -9,7 +9,7 @@ import React from 'react';
 import { useColorScheme, View } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
-import Login from './src/screens/Login';
+import Register from './src/screens/Register';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -19,7 +19,7 @@ function App(): JSX.Element {
   };
   return (
     <View style={backgroundStyle} className="flex-1">
-      <Login />
+      <Register />
     </View>
   );
 }

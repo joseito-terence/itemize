@@ -2,8 +2,12 @@
 import { ImageBackground, View } from 'react-native';
 import React, { useState } from 'react';
 import { Text, TextInput, Button } from 'react-native-paper';
+import type { RootStackParamList } from '../../types';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-export default function Register() {
+type Props = NativeStackScreenProps<RootStackParamList, 'Register'>;
+
+export default function Register({ navigation }: Props) {
   const [credentials, setCredentials] = useState({
     email: '',
     password: '',
@@ -86,9 +90,12 @@ export default function Register() {
           Continue with Apple
         </Button>
 
-        <Text className="py-2 font-bold ">
-          Already have an account? Sign In
-        </Text>
+        <Button
+          className="flex-row items-center"
+          onPress={() => navigation.navigate('Login')}>
+          <Text className="py-2 font-bold">Already have an account? </Text>
+          Sign In
+        </Button>
       </View>
     </View>
   );

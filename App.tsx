@@ -18,6 +18,7 @@ import Home from './src/screens/Home';
 import Settings from './src/screens/Settings';
 import Search from './src/screens/Search';
 import AddItem from './src/screens/AddItem';
+import Item from './src/screens/Item';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createMaterialBottomTabNavigator<BottomTabsParamList>();
@@ -33,6 +34,7 @@ function App(): JSX.Element {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Item" component={Item} />
         <Stack.Screen name="BottomTabs" component={BottomTabs} />
       </Stack.Navigator>
     </View>

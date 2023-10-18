@@ -3,7 +3,26 @@ import React from 'react';
 import { Card, Text, useTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { ItemScreenProps } from '../screens/Item';
-import Animated from 'react-native-reanimated';
+import Animated, {
+  SharedTransition,
+  withSpring,
+} from 'react-native-reanimated';
+
+const SPRING_CONFIG = {
+  mass: 1,
+  stiffness: 100,
+  damping: 2100,
+};
+
+export const sharedElementTransition = SharedTransition.custom(values => {
+  'worklet';
+  return {
+    height: withSpring(values.targetHeight, SPRING_CONFIG),
+    width: withSpring(values.targetWidth, SPRING_CONFIG),
+    originX: withSpring(values.targetOriginX, SPRING_CONFIG),
+    originY: withSpring(values.targetOriginY, SPRING_CONFIG),
+  };
+});
 
 interface Props {
   id: string;
@@ -21,6 +40,7 @@ export default function ItemCard({ id, sharedTransitionTag }: Props) {
       <Card.Content className="flex-row">
         <Animated.Image
           sharedTransitionTag={sharedTransitionTag}
+          sharedTransitionStyle={sharedElementTransition}
           source={{ uri: 'https://picsum.photos/700' }}
           className="w-[100] h-[100] rounded-md"
         />

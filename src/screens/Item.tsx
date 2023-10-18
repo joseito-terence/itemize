@@ -6,6 +6,7 @@ import { Shadow } from 'react-native-shadow-2';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../types';
 import Animated from 'react-native-reanimated';
+import { sharedElementTransition } from '../components/ItemCard';
 
 export type ItemScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -30,6 +31,7 @@ export default function Item({ navigation, route }: ItemScreenProps) {
       <View className="-top-[80]">
         <Animated.Image
           sharedTransitionTag={route.params.sharedTransitionTag}
+          sharedTransitionStyle={sharedElementTransition}
           source={{ uri: 'https://picsum.photos/700' }}
           style={{ width, height: width, backgroundColor: 'green' }}
           resizeMode="contain"

@@ -1,21 +1,25 @@
 /* eslint-disable react-native/no-inline-styles */
-import { View, Image, ScrollView } from 'react-native';
+import { View, ScrollView, Dimensions } from 'react-native';
 import React from 'react';
 import { Card, IconButton, Text, useTheme } from 'react-native-paper';
 import { Shadow } from 'react-native-shadow-2';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../types';
+import Animated from 'react-native-reanimated';
 
 export type ItemScreenProps = NativeStackScreenProps<
   RootStackParamList,
   'Item'
 >;
 
-export default function Item({ navigation }: ItemScreenProps) {
+const { width } = Dimensions.get('window');
+
+export default function Item({ navigation, route }: ItemScreenProps) {
   const theme = useTheme();
+
   return (
     <ScrollView stickyHeaderIndices={[0]}>
-      <View className="">
+      <View>
         <IconButton
           icon="arrow-left"
           rippleColor="rgba(0, 0, 0, .32)"
@@ -24,9 +28,10 @@ export default function Item({ navigation }: ItemScreenProps) {
         />
       </View>
       <View className="-top-[80]">
-        <Image
+        <Animated.Image
+          sharedTransitionTag={route.params.sharedTransitionTag}
           source={{ uri: 'https://picsum.photos/700' }}
-          className="w-full aspect-square"
+          style={{ width, height: width, backgroundColor: 'green' }}
           resizeMode="contain"
         />
 

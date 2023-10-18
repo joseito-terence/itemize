@@ -38,7 +38,12 @@ export default function Search() {
             <TabScreen label={category} key={idx}>
               <FlatList
                 data={Array.from({ length: 10 })}
-                renderItem={() => <ItemCard />}
+                renderItem={({ index }) => (
+                  <ItemCard
+                    id={index.toString()}
+                    sharedTransitionTag={`Search_${category}_${index.toString()}`}
+                  />
+                )}
                 keyExtractor={(_, i) => i.toString()}
                 contentContainerStyle={{ padding: 16, gap: 14 }}
               />

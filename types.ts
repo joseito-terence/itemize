@@ -1,7 +1,10 @@
 export type RootStackParamList = {
   Login: undefined;
   Register: undefined;
-  Item: undefined;
+  Item: {
+    sharedTransitionTag: string;
+    id: string;
+  };
   BottomTabs: undefined;
 };
 

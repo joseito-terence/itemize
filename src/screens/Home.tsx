@@ -33,7 +33,11 @@ export default function Home() {
 
         <View style={{ gap: 14 }}>
           {Array.from({ length: 10 }).map((_, i) => (
-            <ItemCard key={i} />
+            <ItemCard
+              key={i}
+              id={i.toString()}
+              sharedTransitionTag={`Home_${i.toString()}`}
+            />
           ))}
         </View>
       </View>

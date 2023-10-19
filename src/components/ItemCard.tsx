@@ -9,9 +9,12 @@ import Animated, {
 } from 'react-native-reanimated';
 
 const SPRING_CONFIG = {
-  mass: 1,
+  duration: 350,
+  dampingRatio: 2,
   stiffness: 100,
-  damping: 2100,
+  overshootClamping: false,
+  restDisplacementThreshold: 0.01,
+  restSpeedThreshold: 2,
 };
 
 export const sharedElementTransition = SharedTransition.custom(values => {

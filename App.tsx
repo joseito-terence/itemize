@@ -19,6 +19,7 @@ import Settings from './src/screens/Settings';
 import Search from './src/screens/Search';
 import AddItem from './src/screens/AddItem';
 import Item from './src/screens/Item';
+import Camera from './src/screens/Camera';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createMaterialBottomTabNavigator<BottomTabsParamList>();
@@ -36,6 +37,7 @@ function App(): JSX.Element {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Item" component={Item} />
         <Stack.Screen name="BottomTabs" component={BottomTabs} />
+        <Stack.Screen name="Camera" component={Camera} />
       </Stack.Navigator>
     </View>
   );

@@ -6,6 +6,7 @@ export type RootStackParamList = {
     id: string;
   };
   BottomTabs: undefined;
+  Camera: undefined;
 };
 
 export type BottomTabsParamList = {

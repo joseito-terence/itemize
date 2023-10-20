@@ -2,7 +2,6 @@
 import { View, ScrollView, Dimensions } from 'react-native';
 import React from 'react';
 import { Card, IconButton, Text, useTheme } from 'react-native-paper';
-import { Shadow } from 'react-native-shadow-2';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../types';
 import Animated from 'react-native-reanimated';
@@ -67,32 +66,30 @@ const Info = ({ title = '', text = '' }) => {
 
   return (
     <View className="flex-1">
-      <Shadow
-        style={{ borderRadius: 10, width: '100%' }}
-        distance={1}
-        startColor={'#000'}
-        endColor={'#ff00ff10'}
-        offset={[-3, 3]}>
-        <Card
-          mode="elevated"
-          className="justify-center"
-          style={{ backgroundColor: theme.colors.primary }}>
-          <Card.Content>
-            <Text
-              variant="headlineSmall"
-              style={{ color: theme.colors.onPrimary }}
-              className="text-center font-extrabold">
-              {title}
-            </Text>
-            <Text
-              variant="titleMedium"
-              style={{ color: theme.colors.onPrimary }}
-              className="text-center font-bold">
-              {text}
-            </Text>
-          </Card.Content>
-        </Card>
-      </Shadow>
+      <Card
+        mode="elevated"
+        elevation={5}
+        className="justify-center"
+        style={{
+          backgroundColor: theme.colors.primary,
+          borderColor: 'black',
+          borderWidth: 2,
+        }}>
+        <Card.Content>
+          <Text
+            variant="headlineSmall"
+            style={{ color: theme.colors.onPrimary }}
+            className="text-center font-extrabold">
+            {title}
+          </Text>
+          <Text
+            variant="titleMedium"
+            style={{ color: theme.colors.onPrimary }}
+            className="text-center font-bold">
+            {text}
+          </Text>
+        </Card.Content>
+      </Card>
     </View>
   );
 };

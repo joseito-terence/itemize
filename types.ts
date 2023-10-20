@@ -1,3 +1,5 @@
+import { NavigatorScreenParams } from '@react-navigation/native';
+
 export type RootStackParamList = {
   Login: undefined;
   Register: undefined;
@@ -5,7 +7,7 @@ export type RootStackParamList = {
     sharedTransitionTag: string;
     id: string;
   };
-  BottomTabs: undefined;
+  BottomTabs: NavigatorScreenParams<BottomTabsParamList>;
   Camera: undefined;
 };
 

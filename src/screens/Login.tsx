@@ -21,7 +21,7 @@ export default function Login({ navigation }: Props) {
   };
 
   const signIn = () => {
-    navigation.navigate('BottomTabs');
+    navigation.navigate('BottomTabs', { screen: 'Home' });
   };
 
   return (

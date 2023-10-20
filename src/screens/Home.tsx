@@ -94,7 +94,7 @@ export default function Home() {
           <InfoCard title="103" text="Items" scrollY={scrollY} />
         </View>
       </Animated.View>
-      <Animated.ScrollView onScroll={scrollHandler}>
+      <Animated.ScrollView onScroll={scrollHandler} scrollEventThrottle={16}>
         <View className="p-4">
           <View className="flex-row justify-between items-center mb-4">
             <Text variant="headlineMedium" className="font-bold">

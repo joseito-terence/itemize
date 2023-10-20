@@ -71,7 +71,7 @@ export default function Home() {
   return (
     <View className="flex-1">
       <Animated.View
-        className="rounded-b-2xl left-0 right-0"
+        className="rounded-b-2xl absolute left-0 right-0 top-0"
         style={[
           {
             backgroundColor: theme.colors.secondaryContainer,
@@ -85,7 +85,7 @@ export default function Home() {
             rHeaderTextStyle,
             { color: theme.colors.onSecondaryContainer },
           ]}
-          className="font-bold text-[30px] mt-4 mb-6">
+          className="font-bold mt-4 mb-6">
           Home
         </Animated.Text>
 
@@ -94,8 +94,11 @@ export default function Home() {
           <InfoCard title="103" text="Items" scrollY={scrollY} />
         </View>
       </Animated.View>
-      <Animated.ScrollView onScroll={scrollHandler} scrollEventThrottle={16}>
-        <View className="p-4">
+      <Animated.ScrollView
+        onScroll={scrollHandler}
+        scrollEventThrottle={16}
+        className="-z-10">
+        <View className="p-4" style={{ marginTop: HEADER_HEIGHT.max }}>
           <View className="flex-row justify-between items-center mb-4">
             <Text variant="headlineMedium" className="font-bold">
               Recents

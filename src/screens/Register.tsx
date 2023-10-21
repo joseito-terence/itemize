@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import { ImageBackground, View } from 'react-native';
+import { ImageBackground, View, ScrollView } from 'react-native';
 import React, { useState } from 'react';
 import { Text, TextInput, Button } from 'react-native-paper';
 import type { RootStackParamList } from '../../types';
@@ -21,7 +21,7 @@ export default function Register({ navigation }: Props) {
   const register = () => {};
 
   return (
-    <View className="flex-1">
+    <ScrollView className="flex-1">
       <ImageBackground
         source={require('../assets/footsteps.png')}
         width={300}
@@ -97,6 +97,6 @@ export default function Register({ navigation }: Props) {
           Sign In
         </Button>
       </View>
-    </View>
+    </ScrollView>
   );
 }

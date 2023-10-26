@@ -15,7 +15,7 @@ export type CameraScreenProps = NativeStackScreenProps<
   'Camera'
 >;
 
-export default function Camera({}: CameraScreenProps) {
+export default function Camera({ navigation }: CameraScreenProps) {
   const { hasPermission, requestPermission } = useCameraPermission();
   const device = useCameraDevice('back');
   const camera = useRef<VisionCamera>(null);
@@ -50,12 +50,11 @@ export default function Camera({}: CameraScreenProps) {
                 qualityPrioritization: 'quality',
               });
 
-              // if (photo?.path) {
-              //   await CameraRoll.save(`file://${photo.path}`, {
-              //     type: 'photo',
-              //   });
-              // }
-              console.log(photo);
+              if (photo?.path) {
+                navigation.navigate('CropImage', {
+                  imageURI: `file://${photo.path}`,
+                });
+              }
             }}
             className="h-16 w-16 rounded-full border-4 border-white"
           />

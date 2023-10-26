@@ -9,6 +9,9 @@ export type RootStackParamList = {
   };
   BottomTabs: NavigatorScreenParams<BottomTabsParamList>;
   Camera: undefined;
+  CropImage: {
+    imageURI: string;
+  };
 };
 
 export type BottomTabsParamList = {

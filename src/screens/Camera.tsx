@@ -9,6 +9,7 @@ import { useAppState } from '@react-native-community/hooks';
 import { useIsFocused } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../types';
+import ImagePicker from 'react-native-image-crop-picker';
 
 export type CameraScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -51,8 +52,16 @@ export default function Camera({ navigation }: CameraScreenProps) {
               });
 
               if (photo?.path) {
-                navigation.navigate('CropImage', {
-                  imageURI: `file://${photo.path}`,
+                ImagePicker.openCropper({
+                  path: `file://${photo.path}`,
+                  width: 400,
+                  height: 400,
+                  mediaType: 'photo',
+                }).then(image => {
+                  console.log(image);
+                  navigation.navigate('CropImage', {
+                    imageURI: image.path,
+                  });
                 });
               }
             }}

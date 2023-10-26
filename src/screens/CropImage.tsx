@@ -14,6 +14,7 @@ export default function CropImage({ route }: CropImageScreenProps) {
       <Image
         source={{ uri: route.params.imageURI }}
         className="w-full h-[300]"
+        resizeMode="contain"
       />
     </View>
   );

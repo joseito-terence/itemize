@@ -102,7 +102,7 @@ export default function AddItem({ navigation }: Props) {
             className="rounded-lg w-full"
             onPress={() => navigation.navigate('Camera')}
             labelStyle={{ fontSize: 16 }}>
-            Continue
+            Add Now
           </Button>
         </View>
       </View>

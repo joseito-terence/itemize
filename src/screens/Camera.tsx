@@ -54,12 +54,12 @@ export default function Camera({ navigation }: CameraScreenProps) {
               if (photo?.path) {
                 ImagePicker.openCropper({
                   path: `file://${photo.path}`,
-                  width: 400,
-                  height: 400,
+                  width: 1024,
+                  height: 1024,
                   mediaType: 'photo',
                 }).then(image => {
                   console.log(image);
-                  navigation.navigate('CropImage', {
+                  navigation.navigate('CreateItem', {
                     imageURI: image.path,
                   });
                 });

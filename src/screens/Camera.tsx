@@ -10,6 +10,7 @@ import { useIsFocused } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../types';
 import ImagePicker from 'react-native-image-crop-picker';
+import { IconButton } from 'react-native-paper';
 
 export type CameraScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -45,13 +46,32 @@ export default function Camera({ navigation }: CameraScreenProps) {
       />
 
       {isActive && (
-        <View className="w-full justify-center items-center p-6 absolute bottom-0">
+        <View className="w-full justify-around items-center flex-row p-6 absolute bottom-0">
+          <IconButton
+            icon="image-outline"
+            rippleColor="rgba(0, 0, 0, .32)"
+            iconColor="white"
+            size={30}
+            onPress={() => {
+              ImagePicker.openPicker({
+                mediaType: 'photo',
+                cropping: true,
+                width: 1024,
+                height: 1024,
+              }).then(image => {
+                console.log(image);
+                navigation.navigate('CreateItem', {
+                  imageURI: image.path,
+                });
+              });
+            }}
+          />
+
           <TouchableOpacity
             onPress={async () => {
               const photo = await camera.current?.takePhoto({
                 qualityPrioritization: 'quality',
                 enableShutterSound: false,
-                flash: 'auto',
               });
 
               if (photo?.path) {
@@ -69,6 +89,14 @@ export default function Camera({ navigation }: CameraScreenProps) {
               }
             }}
             className="h-16 w-16 rounded-full border-4 border-white"
+          />
+
+          <IconButton
+            icon="close"
+            rippleColor="rgba(0, 0, 0, .32)"
+            iconColor="white"
+            size={30}
+            onPress={navigation.goBack}
           />
         </View>
       )}

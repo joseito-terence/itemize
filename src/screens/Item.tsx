@@ -23,7 +23,8 @@ export default function Item({ navigation, route }: ItemScreenProps) {
         <IconButton
           icon="arrow-left"
           rippleColor="rgba(0, 0, 0, .32)"
-          iconColor={theme.colors.onPrimary}
+          iconColor="white"
+          style={{ backgroundColor: theme.colors.backdrop }}
           onPress={() => navigation.goBack()}
         />
       </View>

@@ -39,6 +39,7 @@ export default function Camera({ navigation }: CameraScreenProps) {
         style={StyleSheet.absoluteFill}
         device={device}
         isActive={isActive}
+        enableZoomGesture
         photo
         orientation="portrait"
       />
@@ -49,6 +50,8 @@ export default function Camera({ navigation }: CameraScreenProps) {
             onPress={async () => {
               const photo = await camera.current?.takePhoto({
                 qualityPrioritization: 'quality',
+                enableShutterSound: false,
+                flash: 'auto',
               });
 
               if (photo?.path) {

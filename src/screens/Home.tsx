@@ -12,6 +12,7 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated';
 import { withAnimated } from '../hooks';
+import AccountInfo from '../components/AccountInfo';
 
 const { width } = Dimensions.get('window');
 const INFO_CARD_SIZE = (width - 48) / 2;
@@ -80,14 +81,18 @@ export default function Home() {
           },
           rHeaderStyle,
         ]}>
-        <Animated.Text
-          style={[
-            rHeaderTextStyle,
-            { color: theme.colors.onSecondaryContainer },
-          ]}
-          className="font-bold mt-4 mb-6">
-          Home
-        </Animated.Text>
+        <View className="flex-row items-center justify-between">
+          <Animated.Text
+            style={[
+              rHeaderTextStyle,
+              { color: theme.colors.onSecondaryContainer },
+            ]}
+            className="font-bold mt-4 mb-6">
+            Home
+          </Animated.Text>
+
+          <AccountInfo />
+        </View>
 
         <View className="flex-1 flex-row mx-auto mb-4" style={{ gap: 20 }}>
           <InfoCard title="2" text="Locations" scrollY={scrollY} />

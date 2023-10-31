@@ -1,7 +1,13 @@
 /* eslint-disable react-native/no-inline-styles */
-import { Dimensions, View } from 'react-native';
+import { Appearance, Dimensions, View } from 'react-native';
 import React from 'react';
-import { Text, Card, useTheme, Button } from 'react-native-paper';
+import {
+  Text,
+  Card,
+  useTheme,
+  Button,
+  TouchableRipple,
+} from 'react-native-paper';
 import ItemCard from '../components/ItemCard';
 import Animated, {
   Extrapolate,
@@ -13,6 +19,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { withAnimated } from '../hooks';
 import AccountInfo from '../components/AccountInfo';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const { width } = Dimensions.get('window');
 const INFO_CARD_SIZE = (width - 48) / 2;
@@ -91,7 +98,22 @@ export default function Home() {
             Home
           </Animated.Text>
 
-          <AccountInfo />
+          <View className="flex-row items-center">
+            <View className="rounded-full overflow-hidden mr-3">
+              <TouchableRipple
+                className="h-[42] w-[42] items-center justify-center"
+                onPress={() =>
+                  Appearance.setColorScheme(theme.dark ? 'light' : 'dark')
+                }>
+                <MaterialIcons
+                  name={theme.dark ? 'light-mode' : 'dark-mode'}
+                  size={30}
+                  color={theme.colors.primary}
+                />
+              </TouchableRipple>
+            </View>
+            <AccountInfo />
+          </View>
         </View>
 
         <View className="flex-1 flex-row mx-auto mb-4" style={{ gap: 20 }}>

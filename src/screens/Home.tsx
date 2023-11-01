@@ -1,13 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
-import { Appearance, Dimensions, View } from 'react-native';
+import { Dimensions, View } from 'react-native';
 import React from 'react';
-import {
-  Text,
-  Card,
-  useTheme,
-  Button,
-  TouchableRipple,
-} from 'react-native-paper';
+import { Text, Card, useTheme, Button } from 'react-native-paper';
 import ItemCard from '../components/ItemCard';
 import Animated, {
   Extrapolate,
@@ -20,6 +14,8 @@ import Animated, {
 import { withAnimated } from '../hooks';
 import AccountInfo from '../components/AccountInfo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import { useColorScheme } from '../components/ColorScheme';
 
 const { width } = Dimensions.get('window');
 const INFO_CARD_SIZE = (width - 48) / 2;
@@ -99,19 +95,7 @@ export default function Home() {
           </Animated.Text>
 
           <View className="flex-row items-center">
-            <View className="rounded-full overflow-hidden mr-3">
-              <TouchableRipple
-                className="h-[42] w-[42] items-center justify-center"
-                onPress={() =>
-                  Appearance.setColorScheme(theme.dark ? 'light' : 'dark')
-                }>
-                <MaterialIcons
-                  name={theme.dark ? 'light-mode' : 'dark-mode'}
-                  size={30}
-                  color={theme.colors.primary}
-                />
-              </TouchableRipple>
-            </View>
+            <ThemeSwitcher />
             <AccountInfo />
           </View>
         </View>
@@ -246,5 +230,28 @@ const InfoCard = ({ title, text, scrollY }: InfoCardProps) => {
         </Card.Content>
       </Card>
     </Animated.View>
+  );
+};
+
+const ThemeSwitcher = () => {
+  const theme = useTheme();
+  const { toggle } = useColorScheme();
+
+  const pan = Gesture.Pan()
+    .runOnJS(true)
+    .onBegin(e => {
+      toggle(e.absoluteX, e.absoluteY);
+    });
+
+  return (
+    <View className="mr-3 h-[42] w-[42] items-center justify-center">
+      <GestureDetector gesture={pan}>
+        <MaterialIcons
+          name={theme.dark ? 'light-mode' : 'dark-mode'}
+          size={30}
+          color={theme.colors.primary}
+        />
+      </GestureDetector>
+    </View>
   );
 };

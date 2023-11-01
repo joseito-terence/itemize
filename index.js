@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /**
  * @format
  */
@@ -19,6 +20,7 @@ import {
   DefaultTheme as NavigationDefaultTheme,
 } from '@react-navigation/native';
 import merge from 'deepmerge';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const { LightTheme, DarkTheme } = adaptNavigationTheme({
   reactNavigationLight: NavigationDefaultTheme,
@@ -33,11 +35,13 @@ function Main() {
   const theme = isDarkMode ? CombinedDarkTheme : CombinedDefaultTheme;
 
   return (
-    <PaperProvider theme={theme}>
-      <NavigationContainer theme={theme}>
-        <App />
-      </NavigationContainer>
-    </PaperProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <PaperProvider theme={theme}>
+        <NavigationContainer theme={theme}>
+          <App />
+        </NavigationContainer>
+      </PaperProvider>
+    </GestureHandlerRootView>
   );
 }
 

@@ -60,14 +60,14 @@ const ColorSchemeProvider = ({ children }: Props) => {
       const _overlay1 = await makeImageFromView(ref);
       setOverlay1(_overlay1);
 
-      await wait(16);
+      await wait(2);
       Appearance.setColorScheme(theme.dark ? 'light' : 'dark');
 
       await wait(1000);
       const _overlay2 = await makeImageFromView(ref);
       setOverlay2(_overlay2);
 
-      await wait(16);
+      await wait(2);
       const duration = 650;
       transition.value = 0;
       transition.value = withTiming(1, { duration });

@@ -72,10 +72,21 @@ export default function Home() {
     return { fontSize, marginBottom };
   });
 
+  const rOptionsStyle = useAnimatedStyle(() => {
+    const opacity = interpolate(
+      scrollY.value,
+      [0, SCROLL_DISTANCE],
+      [1, 0],
+      Extrapolate.CLAMP,
+    );
+
+    return { opacity };
+  });
+
   return (
     <View className="flex-1">
       <Animated.View
-        className="rounded-b-2xl absolute left-0 right-0 top-0"
+        className="rounded-b-2xl absolute left-0 right-0 top-0 z-10"
         style={[
           {
             backgroundColor: theme.colors.secondaryContainer,
@@ -94,10 +105,12 @@ export default function Home() {
             Home
           </Animated.Text>
 
-          <View className="flex-row items-center">
+          <Animated.View
+            style={rOptionsStyle}
+            className="flex-row items-center">
             <ThemeSwitcher />
             <AccountInfo />
-          </View>
+          </Animated.View>
         </View>
 
         <View className="flex-1 flex-row mx-auto mb-4" style={{ gap: 20 }}>

@@ -2,7 +2,6 @@ import {
   makeImageFromView,
   Image,
   Canvas,
-  mix,
   vec,
   ImageShader,
   Circle,
@@ -18,18 +17,16 @@ import React, {
 } from 'react';
 import { Appearance, Dimensions, StyleSheet, View } from 'react-native';
 import { useTheme } from 'react-native-paper';
-import {
-  useDerivedValue,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import { useSharedValue, withTiming } from 'react-native-reanimated';
 
 type TColorSchemeContext = {
   toggle: (x: number, y: number) => void;
+  active: boolean;
 };
 
 const ColorSchemeContext = createContext<TColorSchemeContext>({
   toggle: () => {},
+  active: false,
 });
 
 interface Props {
@@ -49,43 +46,45 @@ const ColorSchemeProvider = ({ children }: Props) => {
   const theme = useTheme();
   const [overlay1, setOverlay1] = useState<SkImage | null>(null);
   const [overlay2, setOverlay2] = useState<SkImage | null>(null);
-  const transition = useSharedValue(0);
+  const r = useSharedValue(0);
   const circle = useSharedValue({ x: 0, y: 0, r: 0 });
+  const [active, setActive] = useState(false);
 
   const toggle = useCallback(
     async (x: number, y: number) => {
-      const r = Math.max(...corners.map(corner => dist(corner, { x, y })));
-      circle.value = { x, y, r };
+      const maxRadius = Math.max(
+        ...corners.map(corner => dist(corner, { x, y })),
+      );
+      circle.value = { x, y, r: maxRadius };
 
       const _overlay1 = await makeImageFromView(ref);
       setOverlay1(_overlay1);
+      setActive(true);
 
-      await wait(2);
+      await wait(1);
       Appearance.setColorScheme(theme.dark ? 'light' : 'dark');
 
-      await wait(1000);
+      await wait(700);
       const _overlay2 = await makeImageFromView(ref);
       setOverlay2(_overlay2);
 
-      await wait(2);
-      const duration = 650;
-      transition.value = 0;
-      transition.value = withTiming(1, { duration });
+      await wait(1);
+      const duration = 550;
+      r.value = withTiming(maxRadius, { duration });
+
       await wait(duration);
       setOverlay1(null);
       setOverlay2(null);
+      setActive(false);
+      r.value = 0;
     },
-    [circle, theme.dark, transition],
+    [circle, theme.dark, r],
   );
-
-  const r = useDerivedValue(() => {
-    return mix(transition.value, 0, circle.value.r);
-  });
 
   return (
     <View className="flex-1">
       <View className="flex-1" ref={ref} collapsable={false}>
-        <ColorSchemeContext.Provider value={{ toggle }}>
+        <ColorSchemeContext.Provider value={{ toggle, active }}>
           {children}
         </ColorSchemeContext.Provider>
       </View>
@@ -94,7 +93,7 @@ const ColorSchemeProvider = ({ children }: Props) => {
         <Canvas style={StyleSheet.absoluteFill} pointerEvents={'none'}>
           <Image image={overlay1} x={0} y={0} width={width} height={height} />
           {overlay2 && (
-            <Circle c={circle} r={r} color="cyan">
+            <Circle c={circle} r={r} color={'cyan'}>
               <ImageShader
                 image={overlay2}
                 x={0}

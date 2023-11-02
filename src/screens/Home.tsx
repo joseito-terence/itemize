@@ -235,12 +235,14 @@ const InfoCard = ({ title, text, scrollY }: InfoCardProps) => {
 
 const ThemeSwitcher = () => {
   const theme = useTheme();
-  const { toggle } = useColorScheme();
+  const { toggle, active } = useColorScheme();
 
   const pan = Gesture.Pan()
     .runOnJS(true)
     .onBegin(e => {
-      toggle(e.absoluteX, e.absoluteY);
+      if (!active) {
+        toggle(e.absoluteX, e.absoluteY);
+      }
     });
 
   return (

@@ -22,26 +22,36 @@ import Item from './src/screens/Item';
 import Camera from './src/screens/Camera';
 import CreateItem from './src/screens/CreateItem';
 import ColorSchemeProvider from './src/components/ColorScheme';
+import { useAuthUser } from './src/hooks';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createMaterialBottomTabNavigator<BottomTabsParamList>();
 
 function App(): JSX.Element {
+  const user = useAuthUser();
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : '#fff',
   };
+
   return (
     <View style={backgroundStyle} className="flex-1">
       <ColorSchemeProvider>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Register" component={Register} />
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Item" component={Item} />
-          <Stack.Screen name="BottomTabs" component={BottomTabs} />
-          <Stack.Screen name="Camera" component={Camera} />
-          <Stack.Screen name="CreateItem" component={CreateItem} />
+          {!user ? (
+            <>
+              <Stack.Screen name="Register" component={Register} />
+              <Stack.Screen name="Login" component={Login} />
+            </>
+          ) : (
+            <>
+              <Stack.Screen name="BottomTabs" component={BottomTabs} />
+              <Stack.Screen name="Item" component={Item} />
+              <Stack.Screen name="Camera" component={Camera} />
+              <Stack.Screen name="CreateItem" component={CreateItem} />
+            </>
+          )}
         </Stack.Navigator>
       </ColorSchemeProvider>
     </View>

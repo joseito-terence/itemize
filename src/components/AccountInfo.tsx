@@ -8,11 +8,12 @@ import {
   Modal,
   Portal,
 } from 'react-native-paper';
-import { useDisclose } from '../hooks';
+import { useAuthUser, useDisclose } from '../hooks';
 import Animated, {
   useAnimatedStyle,
   withTiming,
 } from 'react-native-reanimated';
+import auth from '@react-native-firebase/auth';
 
 const PLACEHOLDER_IMAGE =
   'https://thinksport.com.au/wp-content/uploads/2020/01/avatar-.jpg';
@@ -20,8 +21,9 @@ const PLACEHOLDER_IMAGE =
 export default function AccountInfo() {
   const theme = useTheme();
   const disclose = useDisclose();
+  const user = useAuthUser();
 
-  const avatarImage = PLACEHOLDER_IMAGE;
+  const avatarImage = user?.photoURL || PLACEHOLDER_IMAGE;
 
   const rStyle = useAnimatedStyle(() => {
     return {
@@ -68,12 +70,21 @@ export default function AccountInfo() {
               <View className="flex-row gap-x-4 items-center mb-3">
                 <Avatar.Image size={42} source={{ uri: avatarImage }} />
                 <View className="flex-1">
-                  <Text variant="titleLarge" className="font-bold">
-                    John Doe
-                  </Text>
-                  <Text>john.doe@gmail.com</Text>
+                  {user?.displayName && (
+                    <Text variant="titleLarge" className="font-bold">
+                      {user?.displayName}
+                    </Text>
+                  )}
+                  <Text>{user?.email}</Text>
                 </View>
-                <IconButton icon="logout" />
+                <IconButton
+                  icon="logout"
+                  onPress={() => {
+                    auth()
+                      .signOut()
+                      .then(() => console.log('User signed out!'));
+                  }}
+                />
               </View>
             </View>
           </Animated.View>

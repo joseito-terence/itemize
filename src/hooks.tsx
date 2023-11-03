@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Animated, { AnimateProps } from 'react-native-reanimated';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
 export function withAnimated<T extends object>(
   WrappedComponent: React.ComponentType<T>,
@@ -24,4 +25,18 @@ export function useDisclose() {
   const toggle = React.useCallback(() => setIsOpen(prev => !prev), []);
 
   return { isOpen, open, close, toggle };
+}
+
+export function useAuthUser() {
+  const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
+
+  useEffect(() => {
+    function onAuthStateChanged(_user: any) {
+      setUser(_user);
+    }
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber;
+  }, []);
+
+  return user;
 }

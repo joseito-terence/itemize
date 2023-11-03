@@ -86,7 +86,7 @@ export default function Home() {
   return (
     <View className="flex-1">
       <Animated.View
-        className="rounded-b-2xl absolute left-0 right-0 top-0 z-10"
+        className="rounded-b-2xl absolute left-0 right-0 top-0 z-[1000]"
         style={[
           {
             backgroundColor: theme.colors.secondaryContainer,

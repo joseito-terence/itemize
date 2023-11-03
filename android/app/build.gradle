@@ -86,10 +86,10 @@ android {
     }
     signingConfigs {
         debug {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
+            storeFile file(MYAPP_RELEASE_STORE_FILE)
+            storePassword MYAPP_RELEASE_STORE_PASSWORD
+            keyAlias MYAPP_RELEASE_KEY_ALIAS
+            keyPassword MYAPP_RELEASE_KEY_PASSWORD
         }
         release {
          if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
@@ -130,6 +130,9 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+apply plugin: 'com.google.gms.google-services'

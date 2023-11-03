@@ -14,11 +14,19 @@
       },
       "oauth_client": [
         {
-          "client_id": "86766523134-gn12cevj8a70ff4jk8p3ui1gq4g0u3a2.apps.googleusercontent.com",
+          "client_id": "86766523134-ea0bu3p0nujh1lftvmdm0lc5a450prgu.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.homeninja",
-            "certificate_hash": "3be4d321664c6fee367456901824ccaf6ec16277"
+            "certificate_hash": "b883edb1dcfecb69fa47fabdee998c670bbf46dd"
+          }
+        },
+        {
+          "client_id": "86766523134-i5d67rr6b35lc3q4shd0c6v3tgt64g5v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.homeninja",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
           }
         },
         {

@@ -12,6 +12,7 @@ import type { RootStackParamList } from '../../types';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import LinearGradient from 'react-native-linear-gradient';
 import auth from '@react-native-firebase/auth';
+import { useGoogleSignIn } from '../hooks';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
@@ -24,6 +25,7 @@ export default function Login({ navigation }: Props) {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const signInWithGoogle = useGoogleSignIn();
 
   const handleChange = (key: keyof typeof credentials) => (value: string) => {
     setCredentials(prev => ({ ...prev, [key]: value }));
@@ -102,7 +104,7 @@ export default function Login({ navigation }: Props) {
           mode="outlined"
           className="rounded-lg w-full"
           icon="google"
-          onPress={signIn}
+          onPress={signInWithGoogle}
           labelStyle={{ fontSize: 16 }}>
           Sign In with Google
         </Button>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Animated, { AnimateProps } from 'react-native-reanimated';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 export function withAnimated<T extends object>(
   WrappedComponent: React.ComponentType<T>,
@@ -39,4 +40,31 @@ export function useAuthUser() {
   }, []);
 
   return user;
+}
+
+GoogleSignin.configure({
+  webClientId:
+    '86766523134-hd0hev778e8vc22qk57b50lita415dlq.apps.googleusercontent.com',
+});
+
+export function useGoogleSignIn() {
+  return async function onGoogleButtonPress() {
+    // Check if your device supports Google Play
+    try {
+      await GoogleSignin.hasPlayServices({
+        showPlayServicesUpdateDialog: true,
+      });
+
+      // Get the users ID token
+      const { idToken } = await GoogleSignin.signIn();
+
+      // Create a Google credential with the token
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+      // Sign-in the user with the credential
+      return auth().signInWithCredential(googleCredential);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 }

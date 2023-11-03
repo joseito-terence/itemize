@@ -1,10 +1,17 @@
 /* eslint-disable react-native/no-inline-styles */
 import { ImageBackground, ScrollView, View } from 'react-native';
 import React, { useState } from 'react';
-import { Text, TextInput, Button, useTheme } from 'react-native-paper';
+import {
+  Text,
+  TextInput,
+  Button,
+  useTheme,
+  HelperText,
+} from 'react-native-paper';
 import type { RootStackParamList } from '../../types';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import LinearGradient from 'react-native-linear-gradient';
+import auth from '@react-native-firebase/auth';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
@@ -15,13 +22,26 @@ export default function Login({ navigation }: Props) {
     email: '',
     password: '',
   });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (key: keyof typeof credentials) => (value: string) => {
     setCredentials(prev => ({ ...prev, [key]: value }));
   };
 
   const signIn = () => {
-    navigation.navigate('BottomTabs', { screen: 'Home' });
+    setLoading(true);
+    auth()
+      .signInWithEmailAndPassword(credentials.email, credentials.password)
+      .then(() => {
+        navigation.navigate('BottomTabs', { screen: 'Home' });
+      })
+      .catch(err => {
+        if (err.code === 'auth/invalid-email') {
+          setError('That email address is invalid!');
+        }
+        setLoading(false);
+      });
   };
 
   return (
@@ -64,10 +84,14 @@ export default function Login({ navigation }: Props) {
           secureTextEntry
           onChangeText={handleChange('password')}
         />
+        <HelperText type="error" visible={!!error} className="w-full">
+          {error}
+        </HelperText>
         <Button
           mode="contained"
           className="rounded-lg w-full"
           onPress={signIn}
+          loading={loading}
           labelStyle={{ fontSize: 16 }}>
           Sign In
         </Button>
@@ -81,15 +105,6 @@ export default function Login({ navigation }: Props) {
           onPress={signIn}
           labelStyle={{ fontSize: 16 }}>
           Sign In with Google
-        </Button>
-
-        <Button
-          mode="outlined"
-          className="rounded-lg w-full"
-          icon="apple"
-          onPress={signIn}
-          labelStyle={{ fontSize: 16 }}>
-          Sign In with Apple
         </Button>
 
         <Button

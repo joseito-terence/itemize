@@ -1,9 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
 import { ImageBackground, View, ScrollView } from 'react-native';
 import React, { useState } from 'react';
-import { Text, TextInput, Button } from 'react-native-paper';
+import { Text, TextInput, Button, HelperText } from 'react-native-paper';
 import type { RootStackParamList } from '../../types';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import auth from '@react-native-firebase/auth';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Register'>;
 
@@ -13,12 +14,43 @@ export default function Register({ navigation }: Props) {
     password: '',
     confirmPassword: '',
   });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (key: keyof typeof credentials) => (value: string) => {
     setCredentials(prev => ({ ...prev, [key]: value }));
   };
 
-  const register = () => {};
+  const register = async () => {
+    if (!credentials.email || !credentials.password) {
+      setError('Please enter all the fields.');
+      return;
+    }
+
+    if (credentials.password !== credentials.confirmPassword) {
+      setError("Passwords don't match.");
+      return;
+    }
+
+    setLoading(true);
+    auth()
+      .createUserWithEmailAndPassword(credentials.email, credentials.password)
+      .then(() => {
+        console.log('User account created & signed in!');
+      })
+      .catch(err => {
+        if (err.code === 'auth/email-already-in-use') {
+          setError('That email address is already in use!');
+        }
+
+        if (err.code === 'auth/invalid-email') {
+          setError('That email address is invalid!');
+        }
+
+        console.error(err);
+      })
+      .finally(() => setLoading(false));
+  };
 
   return (
     <ScrollView className="flex-1">
@@ -62,10 +94,14 @@ export default function Register({ navigation }: Props) {
           secureTextEntry
           onChangeText={handleChange('confirmPassword')}
         />
+        <HelperText type="error" visible={!!error} className="w-full">
+          <>{error}</>
+        </HelperText>
         <Button
           mode="contained"
           className="rounded-lg w-full"
           onPress={register}
+          loading={loading}
           labelStyle={{ fontSize: 16 }}>
           Register
         </Button>
@@ -81,14 +117,14 @@ export default function Register({ navigation }: Props) {
           Continue with Google
         </Button>
 
-        <Button
+        {/* <Button
           mode="outlined"
           className="rounded-lg w-full"
           icon="apple"
           onPress={register}
           labelStyle={{ fontSize: 16 }}>
           Continue with Apple
-        </Button>
+        </Button> */}
 
         <Button
           className="flex-row items-center"

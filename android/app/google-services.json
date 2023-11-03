@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "86766523134",
+    "project_id": "itemize-rn-app",
+    "storage_bucket": "itemize-rn-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:86766523134:android:b0f271350c6625d7610baf",
+        "android_client_info": {
+          "package_name": "com.homeninja"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "86766523134-gn12cevj8a70ff4jk8p3ui1gq4g0u3a2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.homeninja",
+            "certificate_hash": "3be4d321664c6fee367456901824ccaf6ec16277"
+          }
+        },
+        {
+          "client_id": "86766523134-hd0hev778e8vc22qk57b50lita415dlq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACQXEV7CwQa5DQOKCip0cPUxrevfi0Kg0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "86766523134-hd0hev778e8vc22qk57b50lita415dlq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

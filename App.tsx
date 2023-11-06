@@ -15,7 +15,6 @@ import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navig
 import Register from './src/screens/Register';
 import Login from './src/screens/Login';
 import Home from './src/screens/Home';
-import Settings from './src/screens/Settings';
 import Search from './src/screens/Search';
 import AddItem from './src/screens/AddItem';
 import Item from './src/screens/Item';
@@ -24,6 +23,7 @@ import CreateItem from './src/screens/CreateItem';
 import ColorSchemeProvider from './src/components/ColorScheme';
 import { useAuthUser } from './src/hooks';
 import CreateStorage from './src/screens/CreateStorage';
+import Storages from './src/screens/Storages';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createMaterialBottomTabNavigator<BottomTabsParamList>();
@@ -39,9 +39,7 @@ function App(): JSX.Element {
   return (
     <View style={backgroundStyle} className="flex-1">
       <ColorSchemeProvider>
-        <Stack.Navigator
-          screenOptions={{ headerShown: false }}
-          initialRouteName="CreateStorage">
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
           {!user ? (
             <>
               <Stack.Screen name="Register" component={Register} />
@@ -83,8 +81,8 @@ const BottomTabs = () => {
         options={{ tabBarIcon: 'camera-plus-outline', title: 'Add Item' }}
       />
       <Tab.Screen
-        name="Settings"
-        component={Settings}
+        name="Storages"
+        component={Storages}
         options={{ tabBarIcon: 'cog-outline' }}
       />
     </Tab.Navigator>

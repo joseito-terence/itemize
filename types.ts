@@ -19,7 +19,7 @@ export type BottomTabsParamList = {
   Home: undefined;
   Search: undefined;
   AddItem: undefined;
-  Settings: undefined;
+  Storages: undefined;
 };
 
 export type TPlace = {

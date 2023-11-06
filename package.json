@@ -17,12 +17,15 @@
     "@react-navigation/native": "^6.1.8",
     "@react-navigation/native-stack": "^6.9.14",
     "@shopify/react-native-skia": "^0.1.215",
+    "axios": "^1.6.0",
     "deepmerge": "^4.3.1",
+    "lodash.debounce": "^4.0.8",
     "nativewind": "^2.0.11",
     "react": "18.2.0",
     "react-native": "0.72.6",
     "react-native-gesture-handler": "^2.12.1",
     "react-native-image-crop-picker": "^0.40.1",
+    "react-native-leaflet-ts": "^0.2.18",
     "react-native-linear-gradient": "^2.8.3",
     "react-native-pager-view": "^6.2.2",
     "react-native-paper": "^5.10.6",
@@ -33,7 +36,8 @@
     "react-native-screens": "^3.25.0",
     "react-native-svg": "^13.14.0",
     "react-native-vector-icons": "^10.0.0",
-    "react-native-vision-camera": "^3.5.1"
+    "react-native-vision-camera": "^3.5.1",
+    "react-native-webview": "^13.6.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
@@ -42,6 +46,7 @@
     "@react-native/eslint-config": "^0.72.2",
     "@react-native/metro-config": "^0.72.11",
     "@tsconfig/react-native": "^3.0.0",
+    "@types/lodash.debounce": "^4.0.8",
     "@types/react": "^18.0.24",
     "@types/react-native-vector-icons": "^6.4.16",
     "@types/react-test-renderer": "^18.0.0",

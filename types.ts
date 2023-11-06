@@ -12,6 +12,7 @@ export type RootStackParamList = {
   CreateItem: {
     imageURI: string;
   };
+  CreateStorage: undefined;
 };
 
 export type BottomTabsParamList = {
@@ -19,4 +20,21 @@ export type BottomTabsParamList = {
   Search: undefined;
   AddItem: undefined;
   Settings: undefined;
+};
+
+export type TPlace = {
+  place_id: number;
+  licence: string;
+  osm_type: string;
+  osm_id: number;
+  lat: number;
+  lon: number;
+  category: string;
+  type: string;
+  place_rank: number;
+  importance: number;
+  addresstype: string;
+  name: string;
+  display_name: string;
+  boundingbox: [string, string, string, string];
 };

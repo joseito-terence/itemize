@@ -23,6 +23,7 @@ import Camera from './src/screens/Camera';
 import CreateItem from './src/screens/CreateItem';
 import ColorSchemeProvider from './src/components/ColorScheme';
 import { useAuthUser } from './src/hooks';
+import CreateStorage from './src/screens/CreateStorage';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createMaterialBottomTabNavigator<BottomTabsParamList>();
@@ -38,7 +39,9 @@ function App(): JSX.Element {
   return (
     <View style={backgroundStyle} className="flex-1">
       <ColorSchemeProvider>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Navigator
+          screenOptions={{ headerShown: false }}
+          initialRouteName="CreateStorage">
           {!user ? (
             <>
               <Stack.Screen name="Register" component={Register} />
@@ -50,6 +53,7 @@ function App(): JSX.Element {
               <Stack.Screen name="Item" component={Item} />
               <Stack.Screen name="Camera" component={Camera} />
               <Stack.Screen name="CreateItem" component={CreateItem} />
+              <Stack.Screen name="CreateStorage" component={CreateStorage} />
             </>
           )}
         </Stack.Navigator>

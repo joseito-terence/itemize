@@ -68,3 +68,18 @@ export function useGoogleSignIn() {
     }
   };
 }
+
+export function useForm<T>(
+  initial: T,
+): [T, (key: keyof T) => (value: any) => void] {
+  const [formState, setFormState] = React.useState(initial);
+
+  const handleChange = React.useCallback(
+    (key: keyof T) => (value: any) => {
+      setFormState(s => ({ ...s, [key]: value }));
+    },
+    [setFormState],
+  );
+
+  return [formState, handleChange];
+}

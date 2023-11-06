@@ -5,12 +5,12 @@ import { Text, TextInput, Button, HelperText } from 'react-native-paper';
 import type { RootStackParamList } from '../../types';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import auth from '@react-native-firebase/auth';
-import { useGoogleSignIn } from '../hooks';
+import { useForm, useGoogleSignIn } from '../hooks';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Register'>;
 
 export default function Register({ navigation }: Props) {
-  const [credentials, setCredentials] = useState({
+  const [credentials, handleChange] = useForm({
     email: '',
     password: '',
     confirmPassword: '',
@@ -18,10 +18,6 @@ export default function Register({ navigation }: Props) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const signInWithGoogle = useGoogleSignIn();
-
-  const handleChange = (key: keyof typeof credentials) => (value: string) => {
-    setCredentials(prev => ({ ...prev, [key]: value }));
-  };
 
   const register = async () => {
     if (!credentials.email || !credentials.password) {

@@ -3,10 +3,11 @@ import React from 'react';
 import { Text, useTheme, TextInput, Button } from 'react-native-paper';
 import LocationPicker from '../components/LocationPicker';
 import { TPlace } from '../../types';
+import { useForm } from '../hooks';
 
 export default function CreateStorage() {
   const theme = useTheme();
-  const [formState, setFormState] = React.useState<{
+  const [formState, handleChange] = useForm<{
     title: string;
     location: TPlace | null;
   }>({
@@ -30,11 +31,9 @@ export default function CreateStorage() {
           className="w-full mb-4"
           placeholder="Title to identify this item"
           value={formState.title}
-          onChangeText={text => setFormState(s => ({ ...s, title: text }))}
+          onChangeText={handleChange('title')}
         />
-        <LocationPicker
-          onChange={place => setFormState(s => ({ ...s, location: place }))}
-        />
+        <LocationPicker onChange={handleChange('location')} />
         <Button mode="contained" className="mt-4">
           Save
         </Button>

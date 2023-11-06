@@ -2,12 +2,18 @@ import { View } from 'react-native';
 import React from 'react';
 import { Text, useTheme, TextInput, Button } from 'react-native-paper';
 import LocationPicker from '../components/LocationPicker';
+import { TPlace } from '../../types';
 
 export default function CreateStorage() {
   const theme = useTheme();
-  const [formState, setFormState] = React.useState({
+  const [formState, setFormState] = React.useState<{
+    title: string;
+    location: TPlace | null;
+  }>({
     title: '',
+    location: null,
   });
+
   return (
     <View className="flex-1">
       <View
@@ -24,9 +30,11 @@ export default function CreateStorage() {
           className="w-full mb-4"
           placeholder="Title to identify this item"
           value={formState.title}
-          onChangeText={text => setFormState({ title: text })}
+          onChangeText={text => setFormState(s => ({ ...s, title: text }))}
         />
-        <LocationPicker />
+        <LocationPicker
+          onChange={place => setFormState(s => ({ ...s, location: place }))}
+        />
         <Button mode="contained" className="mt-4">
           Save
         </Button>

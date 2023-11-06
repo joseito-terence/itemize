@@ -13,7 +13,11 @@ const mapLayers: Layers[] = [
   },
 ];
 
-const LocationPicker = () => {
+type Props = {
+  onChange: (location: TPlace) => void;
+};
+
+const LocationPicker = ({ onChange }: Props) => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<TPlace[]>([]);
   const [selectedLocation, setSelectedLocation] = useState<TPlace | null>(null);
@@ -80,6 +84,7 @@ const LocationPicker = () => {
                   className="py-2 px-4"
                   onPress={() => {
                     setSelectedLocation(item);
+                    onChange(item);
                     setShowSuggestions(false);
                   }}>
                   <Text>{item.display_name}</Text>

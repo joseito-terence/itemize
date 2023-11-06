@@ -29,7 +29,7 @@ export default function CreateStorage() {
           label="Title"
           mode="outlined"
           className="w-full mb-4"
-          placeholder="Title to identify this item"
+          placeholder="Title to identify this storage place"
           value={formState.title}
           onChangeText={handleChange('title')}
         />

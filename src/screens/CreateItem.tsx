@@ -6,6 +6,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Button, TextInput, useTheme, IconButton } from 'react-native-paper';
 import DropDown from 'react-native-paper-dropdown';
 import { categories } from '../../constants';
+import { useForm } from '../hooks';
 
 export type CreateItemScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -33,16 +34,12 @@ export default function CreateItem({
     category: false,
   });
 
-  const [formState, setFormState] = React.useState({
+  const [formState, onChange] = useForm({
     title: '',
     description: '',
     location: LOCATION_LIST[0],
     category: '',
   });
-
-  const onChange = (key: keyof typeof formState) => (value: string) => {
-    setFormState(prev => ({ ...prev, [key]: value }));
-  };
 
   const toggleShowDropdown = (key: keyof typeof showDropdown) => () => {
     setShowDropdown(prev => ({ ...prev, [key]: !prev[key] }));

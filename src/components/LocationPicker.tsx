@@ -5,6 +5,7 @@ import Leaflet, { Markers, Layers } from 'react-native-leaflet-ts';
 import axios from 'axios';
 import _debounce from 'lodash.debounce';
 import type { TPlace } from '../../types';
+import Geolocation from '@react-native-community/geolocation';
 
 const mapLayers: Layers[] = [
   {
@@ -16,6 +17,17 @@ const mapLayers: Layers[] = [
 type Props = {
   onChange: (location: TPlace) => void;
 };
+
+let currLocation = {
+  lat: 0,
+  lon: 0,
+};
+Geolocation.getCurrentPosition(info => {
+  currLocation = {
+    lat: info.coords.latitude,
+    lon: info.coords.longitude,
+  };
+});
 
 const LocationPicker = ({ onChange }: Props) => {
   const [query, setQuery] = useState('');
@@ -104,8 +116,11 @@ const LocationPicker = ({ onChange }: Props) => {
           zoom={2}
           markers={markerList}
           flyTo={{
-            latLng: [selectedLocation?.lat || 0, selectedLocation?.lon || 0],
-            zoom: 15,
+            latLng: [
+              selectedLocation?.lat || currLocation.lat,
+              selectedLocation?.lon || currLocation.lon,
+            ],
+            zoom: 14,
           }}
           backgroundColor="transparent"
         />

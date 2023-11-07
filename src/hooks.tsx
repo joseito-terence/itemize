@@ -29,7 +29,9 @@ export function useDisclose() {
 }
 
 export function useAuthUser() {
-  const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
+  const [user, setUser] = useState<FirebaseAuthTypes.User | null>(
+    auth().currentUser,
+  );
 
   useEffect(() => {
     function onAuthStateChanged(_user: any) {

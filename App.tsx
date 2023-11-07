@@ -83,7 +83,7 @@ const BottomTabs = () => {
       <Tab.Screen
         name="Storages"
         component={Storages}
-        options={{ tabBarIcon: 'cog-outline' }}
+        options={{ tabBarIcon: 'package-variant' }}
       />
     </Tab.Navigator>
   );

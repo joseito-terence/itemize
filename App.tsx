@@ -5,7 +5,7 @@
  * @format
  */
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useColorScheme, View } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -24,6 +24,9 @@ import ColorSchemeProvider from './src/components/ColorScheme';
 import { useAuthUser } from './src/hooks';
 import CreateStorage from './src/screens/CreateStorage';
 import Storages from './src/screens/Storages';
+import { useAppDispatch } from './src/redux/hooks';
+import firestore from '@react-native-firebase/firestore';
+import { setStorages } from './src/redux/storageSlice';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createMaterialBottomTabNavigator<BottomTabsParamList>();
@@ -31,10 +34,31 @@ const Tab = createMaterialBottomTabNavigator<BottomTabsParamList>();
 function App(): JSX.Element {
   const user = useAuthUser();
   const isDarkMode = useColorScheme() === 'dark';
+  const dispatch = useAppDispatch();
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : '#fff',
   };
+
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('storages')
+      .where('userId', '==', user?.uid)
+      .onSnapshot(querySnapshot => {
+        const _storages: any = [];
+        querySnapshot.forEach(documentSnapshot => {
+          _storages.push({
+            ...documentSnapshot.data(),
+            location: documentSnapshot.data().location.toJSON(),
+            id: documentSnapshot.id,
+          });
+        });
+
+        dispatch(setStorages(_storages));
+      });
+
+    return () => subscriber();
+  }, [dispatch, user?.uid]);
 
   return (
     <View style={backgroundStyle} className="flex-1">

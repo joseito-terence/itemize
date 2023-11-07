@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import { FlatList, View } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   Text,
   useTheme,
@@ -10,9 +10,8 @@ import {
 } from 'react-native-paper';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { BottomTabsParamList, RootStackParamList, TStorage } from '../../types';
-import firestore from '@react-native-firebase/firestore';
-import { useAuthUser } from '../hooks';
+import { BottomTabsParamList, RootStackParamList } from '../../types';
+import { useAppSelector } from '../redux/hooks';
 
 type Props = CompositeScreenProps<
   MaterialBottomTabScreenProps<BottomTabsParamList, 'Storages'>,
@@ -21,27 +20,7 @@ type Props = CompositeScreenProps<
 
 export default function Storages({ navigation }: Props) {
   const theme = useTheme();
-  const user = useAuthUser();
-  const [storages, setStorages] = useState<TStorage[]>([]);
-
-  useEffect(() => {
-    const subscriber = firestore()
-      .collection('storages')
-      .where('userId', '==', user?.uid)
-      .onSnapshot(querySnapshot => {
-        const _storages: any = [];
-        querySnapshot.forEach(documentSnapshot => {
-          _storages.push({
-            ...documentSnapshot.data(),
-            id: documentSnapshot.id,
-          });
-        });
-
-        setStorages(_storages);
-      });
-
-    return () => subscriber();
-  }, [user?.uid]);
+  const storages = useAppSelector(state => state.storages);
 
   return (
     <View className="flex-1">

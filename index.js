@@ -21,6 +21,8 @@ import {
 } from '@react-navigation/native';
 import merge from 'deepmerge';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { Provider } from 'react-redux';
+import { store } from './src/redux/store';
 
 const { LightTheme, DarkTheme } = adaptNavigationTheme({
   reactNavigationLight: NavigationDefaultTheme,
@@ -35,13 +37,15 @@ function Main() {
   const theme = isDarkMode ? CombinedDarkTheme : CombinedDefaultTheme;
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <PaperProvider theme={theme}>
-        <NavigationContainer theme={theme}>
-          <App />
-        </NavigationContainer>
-      </PaperProvider>
-    </GestureHandlerRootView>
+    <Provider store={store}>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <PaperProvider theme={theme}>
+          <NavigationContainer theme={theme}>
+            <App />
+          </NavigationContainer>
+        </PaperProvider>
+      </GestureHandlerRootView>
+    </Provider>
   );
 }
 

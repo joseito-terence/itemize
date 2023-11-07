@@ -16,6 +16,7 @@ import AccountInfo from '../components/AccountInfo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { useColorScheme } from '../components/ColorScheme';
+import { useAppSelector } from '../redux/hooks';
 
 const { width } = Dimensions.get('window');
 const INFO_CARD_SIZE = (width - 48) / 2;
@@ -30,6 +31,7 @@ const AnimatedText = withAnimated(Text);
 
 export default function Home() {
   const theme = useTheme();
+  const storagesCount = useAppSelector(state => state.storages.length);
   const scrollY = useSharedValue(0);
 
   const scrollHandler = useAnimatedScrollHandler(event => {
@@ -114,8 +116,8 @@ export default function Home() {
         </View>
 
         <View className="flex-1 flex-row mx-auto mb-4" style={{ gap: 20 }}>
-          <InfoCard title="2" text="Locations" scrollY={scrollY} />
-          <InfoCard title="103" text="Items" scrollY={scrollY} />
+          <InfoCard title={storagesCount} text="Storages" scrollY={scrollY} />
+          <InfoCard title={103} text="Items" scrollY={scrollY} />
         </View>
       </Animated.View>
       <Animated.ScrollView
@@ -146,7 +148,7 @@ export default function Home() {
 }
 
 type InfoCardProps = {
-  title: string;
+  title: number;
   text: string;
   scrollY: SharedValue<number>;
 };

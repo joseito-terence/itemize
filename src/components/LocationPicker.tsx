@@ -75,7 +75,7 @@ const LocationPicker = ({ onChange }: Props) => {
           }}
         />
         {showSuggestions && (
-          <View className="absolute top-[80%] left-0 right-0 bg-black z-10 rounded-md">
+          <View className="absolute top-[80%] left-0 right-0 bg-black z-[1000] rounded-md">
             <FlatList
               data={results}
               keyExtractor={item => item.place_id.toString()}

@@ -13,7 +13,7 @@ import { useAuthUser, useForm } from '../hooks';
 import firestore from '@react-native-firebase/firestore';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
+type Props = NativeStackScreenProps<RootStackParamList, 'CreateStorage'>;
 
 export default function CreateStorage({ navigation }: Props) {
   const theme = useTheme();

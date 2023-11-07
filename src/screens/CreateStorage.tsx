@@ -1,6 +1,12 @@
 import { View } from 'react-native';
 import React, { useState } from 'react';
-import { Text, useTheme, TextInput, Button } from 'react-native-paper';
+import {
+  Text,
+  useTheme,
+  TextInput,
+  Button,
+  IconButton,
+} from 'react-native-paper';
 import LocationPicker from '../components/LocationPicker';
 import { RootStackParamList, TPlace, TStorage } from '../../types';
 import { useAuthUser, useForm } from '../hooks';
@@ -64,8 +70,18 @@ export default function CreateStorage({ navigation }: Props) {
   return (
     <View className="flex-1">
       <View
-        className="p-4 rounded-b-2xl"
+        className="p-4 rounded-b-2xl flex-row items-center"
         style={{ backgroundColor: theme.colors.secondaryContainer }}>
+        {navigation.getState().routeNames[0] === 'BottomTabs' && (
+          <IconButton
+            icon="arrow-left"
+            rippleColor="rgba(0, 0, 0, .32)"
+            iconColor="white"
+            className="-translate-x-2"
+            style={{ backgroundColor: theme.colors.backdrop }}
+            onPress={() => navigation.goBack()}
+          />
+        )}
         <Text variant="displaySmall" className="font-bold my-4">
           Create Storage
         </Text>

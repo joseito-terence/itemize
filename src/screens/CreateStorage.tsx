@@ -51,7 +51,11 @@ export default function CreateStorage({ navigation }: Props) {
       .collection('storages')
       .add(storage)
       .then(() => {
-        navigation.goBack();
+        if (navigation.getState().routeNames[0] === 'BottomTabs') {
+          navigation.goBack();
+        } else {
+          navigation.navigate('BottomTabs', { screen: 'Home' });
+        }
       })
       .catch(console.error)
       .finally(() => setIsLoading(false));

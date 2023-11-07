@@ -72,6 +72,10 @@ const LocationPicker = ({ onChange }: Props) => {
             setQuery(text);
             debouncedSearchLocation(text);
             setShowSuggestions(!!text);
+
+            if (selectedLocation) {
+              setSelectedLocation(null);
+            }
           }}
         />
         {showSuggestions && (

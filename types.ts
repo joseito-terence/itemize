@@ -1,3 +1,4 @@
+import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 import { NavigatorScreenParams } from '@react-navigation/native';
 
 export type RootStackParamList = {
@@ -37,4 +38,12 @@ export type TPlace = {
   name: string;
   display_name: string;
   boundingbox: [string, string, string, string];
+};
+
+export type TStorage = {
+  id: string;
+  name: string;
+  locationName?: string;
+  location?: FirebaseFirestoreTypes.GeoPoint;
+  userId: string;
 };

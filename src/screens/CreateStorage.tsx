@@ -1,12 +1,18 @@
 import { View } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, useTheme, TextInput, Button } from 'react-native-paper';
 import LocationPicker from '../components/LocationPicker';
-import { TPlace } from '../../types';
-import { useForm } from '../hooks';
+import { RootStackParamList, TPlace, TStorage } from '../../types';
+import { useAuthUser, useForm } from '../hooks';
+import firestore from '@react-native-firebase/firestore';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-export default function CreateStorage() {
+type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
+
+export default function CreateStorage({ navigation }: Props) {
   const theme = useTheme();
+  const user = useAuthUser();
+  const [isLoading, setIsLoading] = useState(false);
   const [formState, handleChange] = useForm<{
     title: string;
     location: TPlace | null;
@@ -14,6 +20,42 @@ export default function CreateStorage() {
     title: '',
     location: null,
   });
+
+  if (!user) {
+    return null;
+  }
+
+  const save = () => {
+    if (!formState.title) {
+      return;
+    }
+    setIsLoading(true);
+
+    let storage: Omit<TStorage, 'id'> = {
+      name: formState.title,
+      userId: user.uid,
+    };
+
+    if (formState.location) {
+      storage = {
+        ...storage,
+        locationName: formState.location.display_name,
+        location: new firestore.GeoPoint(
+          formState.location.lat,
+          formState.location.lon,
+        ),
+      };
+    }
+
+    firestore()
+      .collection('storages')
+      .add(storage)
+      .then(() => {
+        navigation.goBack();
+      })
+      .catch(console.error)
+      .finally(() => setIsLoading(false));
+  };
 
   return (
     <View className="flex-1">
@@ -34,7 +76,11 @@ export default function CreateStorage() {
           onChangeText={handleChange('title')}
         />
         <LocationPicker onChange={handleChange('location')} />
-        <Button mode="contained" className="mt-4">
+        <Button
+          mode="contained"
+          className="mt-4"
+          onPress={save}
+          loading={isLoading}>
           Save
         </Button>
       </View>

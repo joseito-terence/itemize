@@ -50,7 +50,7 @@ const LocationPicker = ({ onChange }: Props) => {
     ? [
         {
           latLng: [selectedLocation.lat, selectedLocation.lon],
-          title: selectedLocation.display_name,
+          title: selectedLocation.name,
           iconSize: {
             width: 40,
             height: 40,

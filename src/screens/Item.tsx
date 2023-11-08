@@ -16,6 +16,7 @@ const { width } = Dimensions.get('window');
 
 export default function Item({ navigation, route }: ItemScreenProps) {
   const theme = useTheme();
+  const { sharedTransitionTag, item } = route.params;
 
   return (
     <ScrollView stickyHeaderIndices={[0]}>
@@ -30,32 +31,30 @@ export default function Item({ navigation, route }: ItemScreenProps) {
       </View>
       <View className="-top-[80]">
         <Animated.Image
-          sharedTransitionTag={route.params.sharedTransitionTag}
+          sharedTransitionTag={sharedTransitionTag}
           sharedTransitionStyle={sharedElementTransition}
-          source={{ uri: 'https://picsum.photos/700' }}
+          source={{ uri: item.image }}
           style={{ width, height: width, backgroundColor: 'green' }}
           resizeMode="contain"
         />
 
         <View className="p-4">
           <Text variant="headlineLarge" className="font-bold">
-            Item Name
+            {item.title}
           </Text>
 
           <View className="flex-row my-4" style={{ gap: 24 }}>
-            <Info title="Home 001" text="Location" />
-            <Info title="Kitchen" text="Category" />
+            <Info title={item.title} text="Location" />
+            <Info title={item.category} text="Category" />
           </View>
 
-          <Card>
-            <Card.Content>
-              <Text variant="bodyMedium">
-                Multi-Cams can capture Frames from all physical Camera Devices
-                at the same time and fuse them together to create higher-quality
-                Photos.
-              </Text>
-            </Card.Content>
-          </Card>
+          {item.description && (
+            <Card>
+              <Card.Content>
+                <Text variant="bodyMedium">{item.description}</Text>
+              </Card.Content>
+            </Card>
+          )}
         </View>
       </View>
     </ScrollView>

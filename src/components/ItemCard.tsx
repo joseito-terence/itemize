@@ -7,6 +7,7 @@ import Animated, {
   SharedTransition,
   withSpring,
 } from 'react-native-reanimated';
+import { TItem } from '../../types';
 
 const SPRING_CONFIG = {
   duration: 350,
@@ -28,23 +29,25 @@ export const sharedElementTransition = SharedTransition.custom(values => {
 });
 
 interface Props {
-  id: string;
+  item: TItem;
   sharedTransitionTag: string;
 }
 
-export default function ItemCard({ id, sharedTransitionTag }: Props) {
+export default function ItemCard({ sharedTransitionTag, item }: Props) {
   const theme = useTheme();
   const navigation = useNavigation<ItemScreenProps['navigation']>();
 
   return (
     <Card
       mode="contained"
-      onPress={() => navigation.navigate('Item', { id, sharedTransitionTag })}>
+      onPress={() =>
+        navigation.navigate('Item', { item, sharedTransitionTag })
+      }>
       <Card.Content className="flex-row">
         <Animated.Image
           sharedTransitionTag={sharedTransitionTag}
           sharedTransitionStyle={sharedElementTransition}
-          source={{ uri: 'https://picsum.photos/700' }}
+          source={{ uri: item.image }}
           className="w-[100] h-[100] rounded-md"
         />
 
@@ -53,12 +56,12 @@ export default function ItemCard({ id, sharedTransitionTag }: Props) {
             variant="headlineSmall"
             className="font-bold"
             style={{ color: theme.colors.onPrimaryContainer }}>
-            Item Name
+            {item.title}
           </Text>
           <Text
             variant="bodyMedium"
             style={{ color: theme.colors.onPrimaryContainer }}>
-            Item Description
+            {item.description}
           </Text>
         </View>
       </Card.Content>

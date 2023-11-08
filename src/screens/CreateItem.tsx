@@ -12,7 +12,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Button, TextInput, useTheme, IconButton } from 'react-native-paper';
 import DropDown from 'react-native-paper-dropdown';
 import { categories } from '../../constants';
-import { useForm } from '../hooks';
+import { useAuthUser, useForm } from '../hooks';
 import { useAppSelector } from '../redux/hooks';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import dayjs from 'dayjs';
@@ -35,6 +35,7 @@ export default function CreateItem({
   route,
 }: CreateItemScreenProps) {
   const theme = useTheme();
+  const user = useAuthUser();
   const [loading, setLoading] = useState(false);
   const storages = useAppSelector(state => state.storages);
   const STORAGE_LIST = storages.map(s => ({
@@ -55,6 +56,7 @@ export default function CreateItem({
     category: '',
     expiryDate: null,
     image: route.params.imageURI,
+    userId: '',
   });
 
   const toggleShowDropdown = (key: keyof typeof showDropdown) => () => {
@@ -84,6 +86,7 @@ export default function CreateItem({
         .add({
           ...formState,
           image: url,
+          userId: user?.uid,
         });
 
       navigation.navigate('BottomTabs', { screen: 'Home' });

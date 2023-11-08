@@ -56,4 +56,5 @@ export type TItem = {
   category: string;
   image: string;
   expiryDate: Date | null;
+  userId: string;
 };

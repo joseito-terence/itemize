@@ -32,6 +32,7 @@ const AnimatedText = withAnimated(Text);
 export default function Home() {
   const theme = useTheme();
   const storagesCount = useAppSelector(state => state.storages.length);
+  const itemsCount = useAppSelector(state => state.items.length);
   const scrollY = useSharedValue(0);
 
   const scrollHandler = useAnimatedScrollHandler(event => {
@@ -117,7 +118,7 @@ export default function Home() {
 
         <View className="flex-1 flex-row mx-auto mb-4" style={{ gap: 20 }}>
           <InfoCard title={storagesCount} text="Storages" scrollY={scrollY} />
-          <InfoCard title={103} text="Items" scrollY={scrollY} />
+          <InfoCard title={itemsCount} text="Items" scrollY={scrollY} />
         </View>
       </Animated.View>
       <Animated.ScrollView

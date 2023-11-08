@@ -27,6 +27,7 @@ import Storages from './src/screens/Storages';
 import { useAppDispatch } from './src/redux/hooks';
 import firestore from '@react-native-firebase/firestore';
 import { setStorages } from './src/redux/storageSlice';
+import { setItems } from './src/redux/itemSlice';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createMaterialBottomTabNavigator<BottomTabsParamList>();
@@ -55,6 +56,25 @@ function App(): JSX.Element {
         });
 
         dispatch(setStorages(_storages));
+      });
+
+    return () => subscriber();
+  }, [dispatch, user?.uid]);
+
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('items')
+      .where('userId', '==', user?.uid)
+      .onSnapshot(querySnapshot => {
+        const _items: any = [];
+        querySnapshot.forEach(documentSnapshot => {
+          _items.push({
+            ...documentSnapshot.data(),
+            id: documentSnapshot.id,
+          });
+        });
+
+        dispatch(setItems(_items));
       });
 
     return () => subscriber();

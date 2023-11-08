@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import storageReducer from './storageSlice';
+import itemReducer from './itemSlice';
 
 export const store = configureStore({
   reducer: {
     storages: storageReducer,
+    items: itemReducer,
   },
 });
 

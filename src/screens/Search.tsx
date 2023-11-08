@@ -17,13 +17,18 @@ export default function Search() {
       const _items = items.filter(
         item => category === 'All' || item.category === category,
       );
+
       if (_items.length === 0) {
         return null;
       }
       return (
         <TabScreen label={category} key={idx}>
           <FlatList
-            data={_items}
+            data={_items.filter(item =>
+              JSON.stringify(item)
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase()),
+            )}
             renderItem={({ index, item }) => (
               <ItemCard
                 item={item}
@@ -36,7 +41,7 @@ export default function Search() {
         </TabScreen>
       );
     });
-  }, [items]);
+  }, [items, searchQuery]);
 
   return (
     <View className="flex-1">

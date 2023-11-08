@@ -7,6 +7,7 @@ import { Button, TextInput, useTheme, IconButton } from 'react-native-paper';
 import DropDown from 'react-native-paper-dropdown';
 import { categories } from '../../constants';
 import { useForm } from '../hooks';
+import { useAppSelector } from '../redux/hooks';
 
 export type CreateItemScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -19,25 +20,26 @@ const CATEGORIES_LIST = categories.map(category => ({
   value: category,
 }));
 
-const LOCATION_LIST = [
-  { label: 'Home 001', value: 'Home 001' },
-  { label: 'Home 002', value: 'Home 002' },
-];
-
 export default function CreateItem({
   navigation,
   route,
 }: CreateItemScreenProps) {
   const theme = useTheme();
+  const storages = useAppSelector(state => state.storages);
+  const STORAGE_LIST = storages.map(storage => ({
+    label: storage.name,
+    value: storage.id,
+  }));
+
   const [showDropdown, setShowDropdown] = React.useState({
-    location: false,
+    storage: false,
     category: false,
   });
 
   const [formState, onChange] = useForm({
     title: '',
     description: '',
-    location: LOCATION_LIST[0],
+    storage: storages[0],
     category: '',
   });
 
@@ -64,14 +66,14 @@ export default function CreateItem({
 
         <View className="p-4" style={{ rowGap: 12 }}>
           <DropDown
-            label="Location"
+            label="Storage"
             mode="outlined"
-            value={formState.location}
-            setValue={onChange('location')}
-            list={LOCATION_LIST}
-            visible={showDropdown.location}
-            showDropDown={toggleShowDropdown('location')}
-            onDismiss={toggleShowDropdown('location')}
+            value={formState.storage}
+            setValue={onChange('storage')}
+            list={STORAGE_LIST}
+            visible={showDropdown.storage}
+            showDropDown={toggleShowDropdown('storage')}
+            onDismiss={toggleShowDropdown('storage')}
             dropDownStyle={{
               width: '100%',
             }}

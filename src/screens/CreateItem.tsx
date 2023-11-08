@@ -6,8 +6,8 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
-import type { RootStackParamList, TStorage } from '../../types';
+import React, { useState } from 'react';
+import type { RootStackParamList, TItem } from '../../types';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Button, TextInput, useTheme, IconButton } from 'react-native-paper';
 import DropDown from 'react-native-paper-dropdown';
@@ -16,6 +16,8 @@ import { useForm } from '../hooks';
 import { useAppSelector } from '../redux/hooks';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import dayjs from 'dayjs';
+import storage from '@react-native-firebase/storage';
+import firestore from '@react-native-firebase/firestore';
 
 export type CreateItemScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -28,41 +30,67 @@ const CATEGORIES_LIST = categories.map(category => ({
   value: category,
 }));
 
-type TFormState = {
-  title: string;
-  description: string;
-  storage: TStorage;
-  category: string;
-  expiryDate: Date | null;
-};
-
 export default function CreateItem({
   navigation,
   route,
 }: CreateItemScreenProps) {
   const theme = useTheme();
+  const [loading, setLoading] = useState(false);
   const storages = useAppSelector(state => state.storages);
-  const STORAGE_LIST = storages.map(storage => ({
-    label: storage.name,
-    value: storage.id,
+  const STORAGE_LIST = storages.map(s => ({
+    label: s.name,
+    value: s.id,
   }));
 
-  const [showDropdown, setShowDropdown] = React.useState({
+  const [showDropdown, setShowDropdown] = useState({
     storage: false,
     category: false,
     date: false,
   });
 
-  const [formState, onChange] = useForm<TFormState>({
+  const [formState, onChange] = useForm<Omit<TItem, 'id'>>({
     title: '',
     description: '',
     storage: storages[0],
     category: '',
     expiryDate: null,
+    image: route.params.imageURI,
   });
 
   const toggleShowDropdown = (key: keyof typeof showDropdown) => () => {
     setShowDropdown(prev => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const saveImage = async () => {
+    const reference = storage().ref(formState.image.split('/').pop());
+    await reference.putFile(formState.image);
+    const url = await reference.getDownloadURL();
+    return url;
+  };
+
+  const save = async () => {
+    setLoading(true);
+
+    if (!formState.title || !formState.storage || !formState.category) {
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const url = await saveImage();
+
+      await firestore()
+        .collection('items')
+        .add({
+          ...formState,
+          image: url,
+        });
+
+      navigation.navigate('BottomTabs', { screen: 'Home' });
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+    }
   };
 
   return (
@@ -78,7 +106,7 @@ export default function CreateItem({
       </View>
       <View className="-top-[80]">
         <Image
-          source={{ uri: route.params.imageURI, width, height: width }}
+          source={{ uri: formState.image, width, height: width }}
           resizeMode="contain"
         />
 
@@ -107,7 +135,7 @@ export default function CreateItem({
           />
 
           <TextInput
-            label="Description"
+            label="Description (Optional)"
             mode="outlined"
             className="w-full"
             placeholder="Description of this item"
@@ -170,6 +198,8 @@ export default function CreateItem({
           <Button
             mode="contained"
             className="rounded-lg w-full my-4"
+            loading={loading}
+            onPress={save}
             labelStyle={{ fontSize: 16 }}>
             Save
           </Button>

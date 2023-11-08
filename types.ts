@@ -47,3 +47,13 @@ export type TStorage = {
   location?: FirebaseFirestoreTypes.GeoPoint;
   userId: string;
 };
+
+export type TItem = {
+  id: string;
+  title: string;
+  description: string;
+  storage: TStorage;
+  category: string;
+  image: string;
+  expiryDate: Date | null;
+};

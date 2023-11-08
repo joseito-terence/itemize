@@ -5,7 +5,7 @@
  * @format
  */
 import 'react-native-gesture-handler';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useColorScheme, View } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -24,10 +24,7 @@ import ColorSchemeProvider from './src/components/ColorScheme';
 import { useAuthUser } from './src/hooks';
 import CreateStorage from './src/screens/CreateStorage';
 import Storages from './src/screens/Storages';
-import { useAppDispatch } from './src/redux/hooks';
-import firestore from '@react-native-firebase/firestore';
-import { setStorages } from './src/redux/storageSlice';
-import { setItems } from './src/redux/itemSlice';
+import DataFetcher from './src/components/DataFetcher';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createMaterialBottomTabNavigator<BottomTabsParamList>();
@@ -35,53 +32,14 @@ const Tab = createMaterialBottomTabNavigator<BottomTabsParamList>();
 function App(): JSX.Element {
   const user = useAuthUser();
   const isDarkMode = useColorScheme() === 'dark';
-  const dispatch = useAppDispatch();
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : '#fff',
   };
 
-  useEffect(() => {
-    const subscriber = firestore()
-      .collection('storages')
-      .where('userId', '==', user?.uid)
-      .onSnapshot(querySnapshot => {
-        const _storages: any = [];
-        querySnapshot.forEach(documentSnapshot => {
-          _storages.push({
-            ...documentSnapshot.data(),
-            location: documentSnapshot.data().location.toJSON(),
-            id: documentSnapshot.id,
-          });
-        });
-
-        dispatch(setStorages(_storages));
-      });
-
-    return () => subscriber();
-  }, [dispatch, user?.uid]);
-
-  useEffect(() => {
-    const subscriber = firestore()
-      .collection('items')
-      .where('userId', '==', user?.uid)
-      .onSnapshot(querySnapshot => {
-        const _items: any = [];
-        querySnapshot.forEach(documentSnapshot => {
-          _items.push({
-            ...documentSnapshot.data(),
-            id: documentSnapshot.id,
-          });
-        });
-
-        dispatch(setItems(_items));
-      });
-
-    return () => subscriber();
-  }, [dispatch, user?.uid]);
-
   return (
     <View style={backgroundStyle} className="flex-1">
+      {!!user && <DataFetcher />}
       <ColorSchemeProvider>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           {!user ? (

@@ -1,13 +1,21 @@
 /* eslint-disable react-native/no-inline-styles */
-import { ScrollView, Image, Dimensions, View } from 'react-native';
+import {
+  ScrollView,
+  Image,
+  Dimensions,
+  View,
+  TouchableOpacity,
+} from 'react-native';
 import React from 'react';
-import type { RootStackParamList } from '../../types';
+import type { RootStackParamList, TStorage } from '../../types';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Button, TextInput, useTheme, IconButton } from 'react-native-paper';
 import DropDown from 'react-native-paper-dropdown';
 import { categories } from '../../constants';
 import { useForm } from '../hooks';
 import { useAppSelector } from '../redux/hooks';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import dayjs from 'dayjs';
 
 export type CreateItemScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -19,6 +27,14 @@ const CATEGORIES_LIST = categories.map(category => ({
   label: category,
   value: category,
 }));
+
+type TFormState = {
+  title: string;
+  description: string;
+  storage: TStorage;
+  category: string;
+  expiryDate: Date | null;
+};
 
 export default function CreateItem({
   navigation,
@@ -34,13 +50,15 @@ export default function CreateItem({
   const [showDropdown, setShowDropdown] = React.useState({
     storage: false,
     category: false,
+    date: false,
   });
 
-  const [formState, onChange] = useForm({
+  const [formState, onChange] = useForm<TFormState>({
     title: '',
     description: '',
     storage: storages[0],
     category: '',
+    expiryDate: null,
   });
 
   const toggleShowDropdown = (key: keyof typeof showDropdown) => () => {
@@ -112,6 +130,42 @@ export default function CreateItem({
               width: '100%',
             }}
           />
+
+          <TouchableOpacity onPress={toggleShowDropdown('date')}>
+            <TextInput
+              label="Expiry Date (Optional)"
+              mode="outlined"
+              className="w-full"
+              placeholder="DD/MM/YYYY"
+              value={
+                formState.expiryDate
+                  ? dayjs(formState.expiryDate).format('DD/MM/YYYY')
+                  : ''
+              }
+              onPressIn={toggleShowDropdown('date')}
+              right={
+                formState.expiryDate && (
+                  <TextInput.Icon
+                    icon="close"
+                    onPress={() => onChange('expiryDate')(null)}
+                  />
+                )
+              }
+              editable={false}
+            />
+          </TouchableOpacity>
+
+          {showDropdown.date && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={formState.expiryDate || new Date()}
+              mode="date"
+              onChange={(_, selectedDate) => {
+                toggleShowDropdown('date')();
+                onChange('expiryDate')(selectedDate);
+              }}
+            />
+          )}
 
           <Button
             mode="contained"

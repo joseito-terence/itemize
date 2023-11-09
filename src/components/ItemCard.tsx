@@ -8,6 +8,7 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 import { TItem } from '../../types';
+import { useAppSelector } from '../redux/hooks';
 
 const SPRING_CONFIG = {
   duration: 350,
@@ -36,6 +37,8 @@ interface Props {
 export default function ItemCard({ sharedTransitionTag, item }: Props) {
   const theme = useTheme();
   const navigation = useNavigation<ItemScreenProps['navigation']>();
+  const storages = useAppSelector(state => state.storages);
+  const storage = storages.find(s => s.id === item.storage);
 
   return (
     <Card
@@ -54,12 +57,23 @@ export default function ItemCard({ sharedTransitionTag, item }: Props) {
         <View className="ml-4">
           <Text
             variant="headlineSmall"
-            className="font-bold"
+            numberOfLines={1}
+            ellipsizeMode="tail"
+            className="font-extrabold max-w-[240]"
             style={{ color: theme.colors.onPrimaryContainer }}>
             {item.title}
           </Text>
           <Text
+            variant="bodyLarge"
+            className="font-bold"
+            style={{ color: theme.colors.onPrimaryContainer }}>
+            {storage?.name}
+          </Text>
+          <Text
             variant="bodyMedium"
+            numberOfLines={1}
+            ellipsizeMode="tail"
+            className="max-w-[240]"
             style={{ color: theme.colors.onPrimaryContainer }}>
             {item.description}
           </Text>

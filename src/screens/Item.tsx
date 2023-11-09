@@ -14,8 +14,9 @@ import { RootStackParamList } from '../../types';
 import Animated from 'react-native-reanimated';
 import { sharedElementTransition } from '../components/ItemCard';
 import { useDisclose } from '../hooks';
-import storage from '@react-native-firebase/storage';
+import firebaseStorage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
+import { useAppSelector } from '../redux/hooks';
 
 export type ItemScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -27,11 +28,14 @@ const { width } = Dimensions.get('window');
 export default function Item({ navigation, route }: ItemScreenProps) {
   const theme = useTheme();
   const { sharedTransitionTag, item } = route.params;
+  const storages = useAppSelector(state => state.storages);
+  const storage = storages.find(s => s.id === item.storage);
+
   const menuDisclose = useDisclose();
 
   const deleteItem = async () => {
     try {
-      await storage().refFromURL(item.image).delete();
+      await firebaseStorage().refFromURL(item.image).delete();
       await firestore().collection('items').doc(item.id).delete();
 
       console.log('Item deleted successfully.');
@@ -100,7 +104,7 @@ export default function Item({ navigation, route }: ItemScreenProps) {
           </Text>
 
           <View className="flex-row my-4" style={{ gap: 24 }}>
-            <Info title={item.title} text="Location" />
+            <Info title={storage?.name} text="Location" />
             <Info title={item.category} text="Category" />
           </View>
 

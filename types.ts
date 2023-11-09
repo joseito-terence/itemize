@@ -62,7 +62,7 @@ export type TItem = {
   id: string;
   title: string;
   description: string;
-  storage: TStorage;
+  storage: string;
   category: string;
   image: string;
   expiryDate: Date | null;

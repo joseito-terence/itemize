@@ -1,11 +1,21 @@
 /* eslint-disable react-native/no-inline-styles */
-import { View, ScrollView, Dimensions } from 'react-native';
+import { View, ScrollView, Dimensions, Alert } from 'react-native';
 import React from 'react';
-import { Card, IconButton, Text, useTheme } from 'react-native-paper';
+import {
+  Card,
+  IconButton,
+  Text,
+  useTheme,
+  Menu,
+  Divider,
+} from 'react-native-paper';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../types';
 import Animated from 'react-native-reanimated';
 import { sharedElementTransition } from '../components/ItemCard';
+import { useDisclose } from '../hooks';
+import storage from '@react-native-firebase/storage';
+import firestore from '@react-native-firebase/firestore';
 
 export type ItemScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -17,10 +27,39 @@ const { width } = Dimensions.get('window');
 export default function Item({ navigation, route }: ItemScreenProps) {
   const theme = useTheme();
   const { sharedTransitionTag, item } = route.params;
+  const menuDisclose = useDisclose();
+
+  const deleteItem = async () => {
+    try {
+      await storage().refFromURL(item.image).delete();
+      await firestore().collection('items').doc(item.id).delete();
+
+      console.log('Item deleted successfully.');
+    } catch (error) {
+      console.error('Error deleting item:', error);
+    }
+  };
+
+  const onDelete = () => {
+    Alert.alert('Delete Item', 'Are you sure you want to delete this item?', [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: () => {
+          deleteItem();
+          navigation.goBack();
+        },
+      },
+    ]);
+  };
 
   return (
     <ScrollView stickyHeaderIndices={[0]}>
-      <View>
+      <View className="flex-row justify-between">
         <IconButton
           icon="arrow-left"
           rippleColor="rgba(0, 0, 0, .32)"
@@ -28,6 +67,23 @@ export default function Item({ navigation, route }: ItemScreenProps) {
           style={{ backgroundColor: theme.colors.backdrop }}
           onPress={() => navigation.goBack()}
         />
+
+        <Menu
+          visible={menuDisclose.isOpen}
+          onDismiss={menuDisclose.close}
+          anchor={
+            <IconButton
+              icon="dots-vertical"
+              rippleColor="rgba(0, 0, 0, .32)"
+              iconColor="white"
+              style={{ backgroundColor: theme.colors.backdrop }}
+              onPress={menuDisclose.open}
+            />
+          }>
+          <Menu.Item onPress={() => {}} title="Edit" leadingIcon="pencil" />
+          <Divider />
+          <Menu.Item onPress={onDelete} title="Delete" leadingIcon="delete" />
+        </Menu>
       </View>
       <View className="-top-[80]">
         <Animated.Image

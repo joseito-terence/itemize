@@ -1,5 +1,8 @@
 import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 import { NavigatorScreenParams } from '@react-navigation/native';
+import type { CompositeScreenProps } from '@react-navigation/native';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { MaterialBottomTabScreenProps } from 'react-native-paper/react-navigation';
 
 export type RootStackParamList = {
   Login: undefined;
@@ -22,6 +25,13 @@ export type BottomTabsParamList = {
   AddItem: undefined;
   Storages: undefined;
 };
+
+export type BottomTabsScreenProps<
+  ScreenName extends keyof BottomTabsParamList,
+> = CompositeScreenProps<
+  MaterialBottomTabScreenProps<BottomTabsParamList, ScreenName>,
+  NativeStackScreenProps<RootStackParamList, 'BottomTabs'>
+>;
 
 export type TPlace = {
   place_id: number;

@@ -17,6 +17,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { useColorScheme } from '../components/ColorScheme';
 import { useAppSelector } from '../redux/hooks';
+import type { BottomTabsScreenProps } from '../../types';
 
 const { width } = Dimensions.get('window');
 const INFO_CARD_SIZE = (width - 48) / 2;
@@ -29,7 +30,9 @@ const SCROLL_DISTANCE = HEADER_HEIGHT.max - HEADER_HEIGHT.min;
 
 const AnimatedText = withAnimated(Text);
 
-export default function Home() {
+type Props = BottomTabsScreenProps<'Home'>;
+
+export default function Home({ navigation }: Props) {
   const theme = useTheme();
   const storagesCount = useAppSelector(state => state.storages.length);
   const items = useAppSelector(state => state.items);
@@ -130,7 +133,9 @@ export default function Home() {
             <Text variant="headlineMedium" className="font-bold">
               Recents
             </Text>
-            <Button>View All</Button>
+            <Button onPress={() => navigation.navigate('Search')}>
+              View All
+            </Button>
           </View>
 
           <View style={{ gap: 14 }}>

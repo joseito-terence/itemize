@@ -12,18 +12,11 @@ import Animated, {
   withSequence,
 } from 'react-native-reanimated';
 import LinearGradient from 'react-native-linear-gradient';
-import type { CompositeScreenProps } from '@react-navigation/native';
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import type { MaterialBottomTabScreenProps } from 'react-native-paper/react-navigation';
-
-import type { RootStackParamList, BottomTabsParamList } from '../../types';
+import type { BottomTabsScreenProps } from '../../types';
 
 const SCAN_BOX_SIZE = 261;
 
-type Props = CompositeScreenProps<
-  MaterialBottomTabScreenProps<BottomTabsParamList, 'AddItem'>,
-  NativeStackScreenProps<RootStackParamList, 'BottomTabs'>
->;
+type Props = BottomTabsScreenProps<'AddItem'>;
 
 export default function AddItem({ navigation }: Props) {
   const theme = useTheme();

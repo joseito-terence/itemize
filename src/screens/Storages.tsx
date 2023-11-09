@@ -1,22 +1,11 @@
 /* eslint-disable react-native/no-inline-styles */
 import { FlatList, View } from 'react-native';
 import React from 'react';
-import {
-  Text,
-  useTheme,
-  FAB,
-  MaterialBottomTabScreenProps,
-  Card,
-} from 'react-native-paper';
-import { CompositeScreenProps } from '@react-navigation/native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { BottomTabsParamList, RootStackParamList } from '../../types';
+import { Text, useTheme, FAB, Card } from 'react-native-paper';
+import { BottomTabsScreenProps } from '../../types';
 import { useAppSelector } from '../redux/hooks';
 
-type Props = CompositeScreenProps<
-  MaterialBottomTabScreenProps<BottomTabsParamList, 'Storages'>,
-  NativeStackScreenProps<RootStackParamList, 'BottomTabs'>
->;
+type Props = BottomTabsScreenProps<'Storages'>;
 
 export default function Storages({ navigation }: Props) {
   const theme = useTheme();

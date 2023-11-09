@@ -34,15 +34,21 @@ export default function Storages({ navigation }: Props) {
                 style={{ color: theme.colors.onPrimaryContainer }}>
                 {item.name}
               </Text>
-              <Text
-                variant="bodyMedium"
-                style={{ color: theme.colors.onPrimaryContainer }}>
-                {item.locationName}
-              </Text>
+              {item?.locationName && (
+                <Text
+                  variant="bodyMedium"
+                  style={{ color: theme.colors.onPrimaryContainer }}>
+                  {item.locationName}
+                </Text>
+              )}
             </Card.Content>
           </Card>
         )}
-        contentContainerStyle={{ padding: 16, rowGap: 16, flex: 1 }}
+        contentContainerStyle={{
+          padding: 16,
+          rowGap: 16,
+          flex: storages.length === 0 ? 1 : undefined,
+        }}
         ListEmptyComponent={<UndrawVoid />}
       />
 

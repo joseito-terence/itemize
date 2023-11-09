@@ -79,17 +79,25 @@ export default function CreateItem({
     }
 
     try {
+      if (user === null) {
+        return;
+      }
+
       const url = await saveImage();
+      const _item = {
+        ...formState,
+        image: url,
+        userId: user.uid,
+      };
 
-      await firestore()
-        .collection('items')
-        .add({
-          ...formState,
-          image: url,
-          userId: user?.uid,
-        });
+      const ref = await firestore().collection('items').add(_item);
 
-      navigation.navigate('BottomTabs', { screen: 'Home' });
+      navigation.pop();
+      navigation.pop();
+      navigation.navigate('Item', {
+        item: { ..._item, id: ref.id },
+        sharedTransitionTag: `Item_${ref.id}`,
+      });
     } catch (err) {
       console.log(err);
       setLoading(false);

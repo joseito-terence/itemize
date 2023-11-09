@@ -52,7 +52,7 @@ export default function CreateItem({
   const [formState, onChange] = useForm<Omit<TItem, 'id'>>({
     title: '',
     description: '',
-    storage: storages[0],
+    storage: storages[0].id,
     category: '',
     expiryDate: null,
     image: route.params.imageURI,
@@ -84,7 +84,7 @@ export default function CreateItem({
       }
 
       const url = await saveImage();
-      const _item = {
+      const _item: Omit<TItem, 'id'> = {
         ...formState,
         image: url,
         userId: user.uid,

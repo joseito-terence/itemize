@@ -128,7 +128,7 @@ export default function Home({ navigation }: Props) {
       <Animated.ScrollView
         onScroll={scrollHandler}
         scrollEventThrottle={16}
-        contentContainerStyle={{ flex: 1 }}
+        contentContainerStyle={{ flex: items.length === 0 ? 1 : undefined }}
         className="-z-10">
         <View className="p-4 flex-1" style={{ marginTop: HEADER_HEIGHT.max }}>
           <View className="flex-row justify-between items-center mb-4">

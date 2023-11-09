@@ -4,6 +4,7 @@ import React from 'react';
 import { Text, useTheme, FAB, Card } from 'react-native-paper';
 import { BottomTabsScreenProps } from '../../types';
 import { useAppSelector } from '../redux/hooks';
+import UndrawVoid from '../assets/UndrawVoid';
 
 type Props = BottomTabsScreenProps<'Storages'>;
 
@@ -41,7 +42,8 @@ export default function Storages({ navigation }: Props) {
             </Card.Content>
           </Card>
         )}
-        contentContainerStyle={{ padding: 16, rowGap: 16 }}
+        contentContainerStyle={{ padding: 16, rowGap: 16, flex: 1 }}
+        ListEmptyComponent={<UndrawVoid />}
       />
 
       <FAB

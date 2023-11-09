@@ -18,6 +18,7 @@ import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { useColorScheme } from '../components/ColorScheme';
 import { useAppSelector } from '../redux/hooks';
 import type { BottomTabsScreenProps } from '../../types';
+import UndrawVoid from '../assets/UndrawVoid';
 
 const { width } = Dimensions.get('window');
 const INFO_CARD_SIZE = (width - 48) / 2;
@@ -127,8 +128,9 @@ export default function Home({ navigation }: Props) {
       <Animated.ScrollView
         onScroll={scrollHandler}
         scrollEventThrottle={16}
+        contentContainerStyle={{ flex: 1 }}
         className="-z-10">
-        <View className="p-4" style={{ marginTop: HEADER_HEIGHT.max }}>
+        <View className="p-4 flex-1" style={{ marginTop: HEADER_HEIGHT.max }}>
           <View className="flex-row justify-between items-center mb-4">
             <Text variant="headlineMedium" className="font-bold">
               Recents
@@ -138,7 +140,7 @@ export default function Home({ navigation }: Props) {
             </Button>
           </View>
 
-          <View style={{ gap: 14 }}>
+          <View style={{ gap: 14, flex: 1 }}>
             {items.slice(0, 8).map(item => (
               <ItemCard
                 key={item.id}
@@ -146,6 +148,8 @@ export default function Home({ navigation }: Props) {
                 sharedTransitionTag={`Home_${item.id}`}
               />
             ))}
+
+            {items.length === 0 && <UndrawVoid />}
           </View>
         </View>
       </Animated.ScrollView>

@@ -6,6 +6,7 @@ import { Tabs, TabScreen, TabsProvider } from 'react-native-paper-tabs';
 import { categories } from '../../constants';
 import ItemCard from '../components/ItemCard';
 import { useAppSelector } from '../redux/hooks';
+import UndrawVoid from '../assets/UndrawVoid';
 
 const CATEGORIES_LIST = ['All', ...categories];
 
@@ -64,14 +65,18 @@ export default function Search() {
         </View>
       </View>
 
-      <TabsProvider
-        defaultIndex={0}
-        // onChangeIndex={handleChangeIndex} optional
-      >
-        <Tabs mode="scrollable" showLeadingSpace={false}>
-          {CategoryWiseTabs}
-        </Tabs>
-      </TabsProvider>
+      {items.length === 0 ? (
+        <UndrawVoid />
+      ) : (
+        <TabsProvider
+          defaultIndex={0}
+          // onChangeIndex={handleChangeIndex} optional
+        >
+          <Tabs mode="scrollable" showLeadingSpace={false}>
+            {CategoryWiseTabs}
+          </Tabs>
+        </TabsProvider>
+      )}
     </View>
   );
 }

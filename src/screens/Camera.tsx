@@ -2,7 +2,6 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import React, { useRef } from 'react';
 import {
   useCameraDevice,
-  useCameraPermission,
   Camera as VisionCamera,
 } from 'react-native-vision-camera';
 import { useAppState } from '@react-native-community/hooks';
@@ -18,16 +17,11 @@ export type CameraScreenProps = NativeStackScreenProps<
 >;
 
 export default function Camera({ navigation }: CameraScreenProps) {
-  const { hasPermission, requestPermission } = useCameraPermission();
   const device = useCameraDevice('back');
   const camera = useRef<VisionCamera>(null);
   const isFocused = useIsFocused();
   const appState = useAppState();
   const isActive = isFocused && appState === 'active';
-
-  if (!hasPermission) {
-    requestPermission();
-  }
 
   if (device == null) {
     return <></>;

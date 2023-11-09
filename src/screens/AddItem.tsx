@@ -13,6 +13,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import LinearGradient from 'react-native-linear-gradient';
 import type { BottomTabsScreenProps } from '../../types';
+import { useCameraPermission } from 'react-native-vision-camera';
 
 const SCAN_BOX_SIZE = 261;
 
@@ -20,6 +21,7 @@ type Props = BottomTabsScreenProps<'AddItem'>;
 
 export default function AddItem({ navigation }: Props) {
   const theme = useTheme();
+  const { hasPermission, requestPermission } = useCameraPermission();
   const translateY = useSharedValue(-(SCAN_BOX_SIZE - 60));
 
   useEffect(() => {
@@ -93,7 +95,13 @@ export default function AddItem({ navigation }: Props) {
           <Button
             mode="contained"
             className="rounded-lg w-full"
-            onPress={() => navigation.navigate('Camera')}
+            onPress={() => {
+              if (hasPermission) {
+                navigation.navigate('Camera');
+              } else {
+                requestPermission().then(() => navigation.navigate('Camera'));
+              }
+            }}
             labelStyle={{ fontSize: 16 }}>
             Add Now
           </Button>

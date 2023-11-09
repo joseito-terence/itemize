@@ -7,13 +7,15 @@ import { categories } from '../../constants';
 import ItemCard from '../components/ItemCard';
 import { useAppSelector } from '../redux/hooks';
 
+const CATEGORIES_LIST = ['All', ...categories];
+
 export default function Search() {
   const theme = useTheme();
   const items = useAppSelector(state => state.items);
   const [searchQuery, setSearchQuery] = React.useState('');
 
   const CategoryWiseTabs = React.useMemo(() => {
-    return categories.map((category, idx) => {
+    return CATEGORIES_LIST.map((category, idx) => {
       const _items = items.filter(
         item => category === 'All' || item.category === category,
       );

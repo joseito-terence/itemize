@@ -59,7 +59,6 @@ export default function Camera({ navigation }: CameraScreenProps) {
                 width: 1024,
                 height: 1024,
               }).then(image => {
-                console.log(image);
                 navigation.navigate('CreateItem', {
                   imageURI: image.path,
                 });
@@ -81,7 +80,6 @@ export default function Camera({ navigation }: CameraScreenProps) {
                   height: 1024,
                   mediaType: 'photo',
                 }).then(image => {
-                  console.log(image);
                   navigation.navigate('CreateItem', {
                     imageURI: image.path,
                   });

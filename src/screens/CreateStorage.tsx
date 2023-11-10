@@ -100,6 +100,7 @@ export default function CreateStorage({ navigation }: Props) {
           mode="contained"
           className="mt-4"
           onPress={save}
+          disabled={!formState.title || isLoading}
           loading={isLoading}>
           Save
         </Button>

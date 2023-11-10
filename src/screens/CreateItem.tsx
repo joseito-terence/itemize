@@ -211,6 +211,7 @@ export default function CreateItem({
             className="rounded-lg w-full my-4"
             loading={loading}
             onPress={save}
+            disabled={loading}
             labelStyle={{ fontSize: 16 }}>
             Save
           </Button>

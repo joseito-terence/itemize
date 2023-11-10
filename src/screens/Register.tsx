@@ -50,6 +50,12 @@ export default function Register({ navigation }: Props) {
       .finally(() => setLoading(false));
   };
 
+  const onSuccess = () => {
+    setTimeout(() => {
+      navigation.navigate('CreateStorage');
+    }, 600);
+  };
+
   return (
     <ScrollView className="flex-1">
       <ImageBackground
@@ -98,7 +104,7 @@ export default function Register({ navigation }: Props) {
         <Button
           mode="contained"
           className="rounded-lg w-full"
-          onPress={register}
+          onPress={() => register().then(onSuccess)}
           loading={loading}
           labelStyle={{ fontSize: 16 }}>
           Register
@@ -110,7 +116,7 @@ export default function Register({ navigation }: Props) {
           mode="outlined"
           className="rounded-lg w-full"
           icon="google"
-          onPress={signInWithGoogle}
+          onPress={() => signInWithGoogle().then(onSuccess)}
           labelStyle={{ fontSize: 16 }}>
           Continue with Google
         </Button>

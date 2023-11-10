@@ -31,9 +31,9 @@ const SCROLL_DISTANCE = HEADER_HEIGHT.max - HEADER_HEIGHT.min;
 
 const AnimatedText = withAnimated(Text);
 
-type Props = BottomTabsScreenProps<'Home'>;
+export type HomeScreenProps = BottomTabsScreenProps<'Home'>;
 
-export default function Home({ navigation }: Props) {
+export default function Home({ navigation }: HomeScreenProps) {
   const theme = useTheme();
   const storagesCount = useAppSelector(state => state.storages.length);
   const items = useAppSelector(state => state.items);

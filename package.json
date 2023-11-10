@@ -29,6 +29,7 @@
     "nativewind": "^2.0.11",
     "react": "18.2.0",
     "react-native": "0.72.6",
+    "react-native-bootsplash": "^5.1.1",
     "react-native-gesture-handler": "^2.12.1",
     "react-native-image-crop-picker": "^0.40.1",
     "react-native-leaflet-ts": "^0.2.18",

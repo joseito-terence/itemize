@@ -4,7 +4,7 @@
  */
 
 import { AppRegistry } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import App from './App';
 import { name as appName } from './app.json';
 import { NavigationContainer } from '@react-navigation/native';
@@ -23,6 +23,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Provider } from 'react-redux';
 import { store } from './src/redux/store';
 import { useAppSelector } from './src/redux/hooks';
+import BootSplash from 'react-native-bootsplash';
 
 const { LightTheme, DarkTheme } = adaptNavigationTheme({
   reactNavigationLight: NavigationDefaultTheme,
@@ -33,6 +34,16 @@ const CombinedDefaultTheme = merge(MD3LightTheme, LightTheme);
 const CombinedDarkTheme = merge(MD3DarkTheme, DarkTheme);
 
 function Main() {
+  useEffect(() => {
+    const init = async () => {
+      // …do multiple sync or async tasks
+    };
+
+    init().finally(async () => {
+      await BootSplash.hide({ fade: true });
+    });
+  }, []);
+
   return (
     <Provider store={store}>
       <Providers>

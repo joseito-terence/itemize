@@ -82,7 +82,7 @@ const ColorSchemeProvider = ({ children }: Props) => {
       await wait(1);
       dispatch(toggleTheme());
 
-      await wait(16);
+      await wait(60);
       const _overlay2 = await makeImageFromView(ref);
       dispatch(
         setTransitionState({

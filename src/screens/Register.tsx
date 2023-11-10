@@ -64,7 +64,7 @@ export default function Register({ navigation }: Props) {
           </Text>
           <Text variant="titleLarge" className="font-bold">
             {' '}
-            Sign in to continue.
+            Register for Free.
           </Text>
         </View>
       </ImageBackground>

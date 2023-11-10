@@ -129,6 +129,7 @@ export default function Home({ navigation }: Props) {
         onScroll={scrollHandler}
         scrollEventThrottle={16}
         contentContainerStyle={{ flex: items.length === 0 ? 1 : undefined }}
+        showsVerticalScrollIndicator={false}
         className="-z-10">
         <View className="p-4 flex-1" style={{ marginTop: HEADER_HEIGHT.max }}>
           <View className="flex-row justify-between items-center mb-4">
@@ -260,14 +261,12 @@ const InfoCard = ({ title, text, scrollY }: InfoCardProps) => {
 
 const ThemeSwitcher = () => {
   const theme = useTheme();
-  const { toggle, active } = useColorScheme();
+  const { toggle } = useColorScheme();
 
   const pan = Gesture.Pan()
     .runOnJS(true)
     .onBegin(e => {
-      if (!active) {
-        toggle(e.absoluteX, e.absoluteY);
-      }
+      toggle(e.absoluteX, e.absoluteY);
     });
 
   return (

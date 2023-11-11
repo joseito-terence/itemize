@@ -35,8 +35,10 @@ export default function Item({ navigation, route }: ItemScreenProps) {
 
   const deleteItem = async () => {
     try {
-      await firebaseStorage().refFromURL(item.image).delete();
-      await firestore().collection('items').doc(item.id).delete();
+      await Promise.allSettled([
+        firebaseStorage().refFromURL(item.image).delete(),
+        firestore().collection('items').doc(item.id).delete(),
+      ]);
 
       console.log('Item deleted successfully.');
     } catch (error) {

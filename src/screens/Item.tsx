@@ -8,6 +8,7 @@ import {
   useTheme,
   Menu,
   Divider,
+  TouchableRipple,
 } from 'react-native-paper';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../types';
@@ -17,6 +18,7 @@ import { useDisclose } from '../hooks';
 import firebaseStorage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import { useAppSelector } from '../redux/hooks';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 export type ItemScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -110,6 +112,19 @@ export default function Item({ navigation, route }: ItemScreenProps) {
             <Info title={item.category} text="Category" />
           </View>
 
+          <View className="flex-row mb-4" style={{ gap: 24 }}>
+            <ActionButton
+              icon="add"
+              text="Add Invoice"
+              onPress={() => console.log('hey')}
+            />
+            <ActionButton
+              icon="add-alert"
+              text="Add Reminder"
+              onPress={() => console.log('hey')}
+            />
+          </View>
+
           {item.description && (
             <Card>
               <Card.Content>
@@ -122,6 +137,32 @@ export default function Item({ navigation, route }: ItemScreenProps) {
     </ScrollView>
   );
 }
+
+interface ActionButtonProps {
+  icon: string;
+  text: string;
+  onPress: () => void;
+}
+
+const ActionButton = ({ icon, text, onPress }: ActionButtonProps) => {
+  const theme = useTheme();
+  return (
+    <View
+      className="flex-1 rounded-lg"
+      style={{ backgroundColor: theme.colors.primary }}>
+      <TouchableRipple onPress={onPress} rippleColor={theme.colors.onPrimary}>
+        <View
+          className="w-100 justify-center items-center rounded-lg aspect-square"
+          style={{ rowGap: 8 }}>
+          <MaterialIcons name={icon} size={40} color={theme.colors.onPrimary} />
+          <Text variant="bodyLarge" style={{ color: theme.colors.onPrimary }}>
+            {text}
+          </Text>
+        </View>
+      </TouchableRipple>
+    </View>
+  );
+};
 
 const Info = ({ title = '', text = '' }) => {
   const theme = useTheme();

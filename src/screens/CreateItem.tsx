@@ -136,6 +136,7 @@ export default function CreateItem({
             placeholder="Title to identify this item"
             value={formState.title}
             onChangeText={onChange('title')}
+            disabled={loading}
           />
 
           <TextInput
@@ -147,6 +148,7 @@ export default function CreateItem({
             numberOfLines={4}
             value={formState.description}
             onChangeText={onChange('description')}
+            disabled={loading}
           />
 
           <DropDown
@@ -163,7 +165,9 @@ export default function CreateItem({
             }}
           />
 
-          <TouchableOpacity onPress={toggleShowDropdown('date')}>
+          <TouchableOpacity
+            onPress={toggleShowDropdown('date')}
+            disabled={loading}>
             <TextInput
               label="Expiry Date (Optional)"
               mode="outlined"

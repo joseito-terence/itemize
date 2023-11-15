@@ -94,6 +94,7 @@ export default function CreateStorage({ navigation }: Props) {
           placeholder="Title to identify this storage place"
           value={formState.title}
           onChangeText={handleChange('title')}
+          disabled={isLoading}
         />
         <LocationPicker onChange={handleChange('location')} />
         <Button

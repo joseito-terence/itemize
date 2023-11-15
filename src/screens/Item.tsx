@@ -19,6 +19,7 @@ import firebaseStorage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import { useAppSelector } from '../redux/hooks';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import AddInvoiceActionSheet from '../components/AddInvoiceActionSheet';
 
 export type ItemScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -32,7 +33,7 @@ export default function Item({ navigation, route }: ItemScreenProps) {
   const { sharedTransitionTag, item } = route.params;
   const storages = useAppSelector(state => state.storages);
   const storage = storages.find(s => s.id === item.storage);
-
+  const addInvoiceActionSheet = useDisclose();
   const menuDisclose = useDisclose();
 
   const deleteItem = async () => {
@@ -116,7 +117,7 @@ export default function Item({ navigation, route }: ItemScreenProps) {
             <ActionButton
               icon="add"
               text="Add Invoice"
-              onPress={() => console.log('hey')}
+              onPress={addInvoiceActionSheet.open}
             />
             <ActionButton
               icon="add-alert"
@@ -134,6 +135,7 @@ export default function Item({ navigation, route }: ItemScreenProps) {
           )}
         </View>
       </View>
+      <AddInvoiceActionSheet {...addInvoiceActionSheet} />
     </ScrollView>
   );
 }

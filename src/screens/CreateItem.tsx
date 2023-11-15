@@ -16,8 +16,8 @@ import { useAuthUser, useForm } from '../hooks';
 import { useAppSelector } from '../redux/hooks';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import dayjs from 'dayjs';
-import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
+import { saveImage } from '../helper';
 
 export type CreateItemScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -63,13 +63,6 @@ export default function CreateItem({
     setShowDropdown(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const saveImage = async () => {
-    const reference = storage().ref(formState.image.split('/').pop());
-    await reference.putFile(formState.image);
-    const url = await reference.getDownloadURL();
-    return url;
-  };
-
   const save = async () => {
     setLoading(true);
 
@@ -83,7 +76,7 @@ export default function CreateItem({
         return;
       }
 
-      const url = await saveImage();
+      const url = await saveImage(formState.image);
       const _item: Omit<TItem, 'id'> = {
         ...formState,
         image: url,

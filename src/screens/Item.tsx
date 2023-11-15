@@ -93,7 +93,7 @@ export default function Item({ navigation, route }: ItemScreenProps) {
           <Menu.Item onPress={onDelete} title="Delete" leadingIcon="delete" />
         </Menu>
       </View>
-      <View className="-top-[80]">
+      <View className="-mt-[80]">
         <Animated.Image
           sharedTransitionTag={sharedTransitionTag}
           sharedTransitionStyle={sharedElementTransition}
@@ -107,12 +107,12 @@ export default function Item({ navigation, route }: ItemScreenProps) {
             {item.title}
           </Text>
 
-          <View className="flex-row my-4" style={{ gap: 24 }}>
+          <View className="flex-row my-4" style={{ gap: 16 }}>
             <Info title={storage?.name} text="Location" />
             <Info title={item.category} text="Category" />
           </View>
 
-          <View className="flex-row mb-4" style={{ gap: 24 }}>
+          <View className="flex-row mb-4" style={{ gap: 16 }}>
             <ActionButton
               icon="add"
               text="Add Invoice"

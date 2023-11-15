@@ -140,6 +140,8 @@ const Info = ({ title = '', text = '' }) => {
         <Card.Content>
           <Text
             variant="headlineSmall"
+            numberOfLines={1}
+            ellipsizeMode="tail"
             style={{ color: theme.colors.onPrimary }}
             className="text-center font-extrabold">
             {title}

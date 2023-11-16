@@ -2,11 +2,25 @@ import React from 'react';
 import { View } from 'react-native';
 import { Portal, Modal, IconButton, useTheme, Text } from 'react-native-paper';
 import { useDisclose } from '../hooks';
+import Animated, {
+  useAnimatedStyle,
+  withTiming,
+} from 'react-native-reanimated';
 
 interface Props extends ReturnType<typeof useDisclose> {}
 
 export default function AddInvoiceActionSheet({ ...props }: Props) {
   const theme = useTheme();
+
+  const rStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          translateY: withTiming(props.isOpen ? 0 : 100, { duration: 300 }),
+        },
+      ],
+    };
+  }, [props.isOpen]);
 
   return (
     <Portal>
@@ -17,13 +31,13 @@ export default function AddInvoiceActionSheet({ ...props }: Props) {
         className="justify-end"
         dismissable
         dismissableBackButton>
-        <View
+        <Animated.View
           className="w-full px-4 py-6 rounded-t-xl flex-row justify-evenly"
-          style={{ backgroundColor: theme.colors.inverseOnSurface }}>
+          style={[rStyle, { backgroundColor: theme.colors.inverseOnSurface }]}>
           <Button icon="camera" text="Camera" />
           <Button icon="file-image" text="Gallery" />
           <Button icon="file-pdf-box" text="PDF" />
-        </View>
+        </Animated.View>
       </Modal>
     </Portal>
   );

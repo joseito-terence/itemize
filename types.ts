@@ -17,7 +17,13 @@ export type RootStackParamList = {
     imageURI: string;
   };
   CreateStorage: undefined;
+  InvoiceViewer: {
+    invoice: TInvoice;
+  };
 };
+
+export type RootStackScreenProps<ScreenName extends keyof RootStackParamList> =
+  NativeStackScreenProps<RootStackParamList, ScreenName>;
 
 export type BottomTabsParamList = {
   Home: undefined;

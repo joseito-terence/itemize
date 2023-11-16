@@ -2,12 +2,11 @@
 import { ImageBackground, View, ScrollView } from 'react-native';
 import React, { useState } from 'react';
 import { Text, TextInput, Button, HelperText } from 'react-native-paper';
-import type { RootStackParamList } from '../../types';
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { RootStackScreenProps } from '../../types';
 import auth from '@react-native-firebase/auth';
 import { useForm, useGoogleSignIn } from '../hooks';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Register'>;
+type Props = RootStackScreenProps<'Register'>;
 
 export default function Register({ navigation }: Props) {
   const [credentials, handleChange] = useForm({

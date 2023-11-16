@@ -24,6 +24,7 @@ import { useAuthUser } from './src/hooks';
 import CreateStorage from './src/screens/CreateStorage';
 import Storages from './src/screens/Storages';
 import DataFetcher from './src/components/DataFetcher';
+import InvoiceViewer from './src/screens/InvoiceViewer';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createMaterialBottomTabNavigator<BottomTabsParamList>();
@@ -48,6 +49,7 @@ function App(): JSX.Element {
               <Stack.Screen name="Camera" component={Camera} />
               <Stack.Screen name="CreateItem" component={CreateItem} />
               <Stack.Screen name="CreateStorage" component={CreateStorage} />
+              <Stack.Screen name="InvoiceViewer" component={InvoiceViewer} />
             </>
           )}
         </Stack.Navigator>

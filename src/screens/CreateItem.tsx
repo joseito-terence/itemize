@@ -7,8 +7,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React, { useState } from 'react';
-import type { RootStackParamList, TItem } from '../../types';
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { RootStackScreenProps, TItem } from '../../types';
 import { Button, TextInput, useTheme, IconButton } from 'react-native-paper';
 import DropDown from 'react-native-paper-dropdown';
 import { categories } from '../../constants';
@@ -19,10 +18,7 @@ import dayjs from 'dayjs';
 import firestore from '@react-native-firebase/firestore';
 import { saveImage } from '../helper';
 
-export type CreateItemScreenProps = NativeStackScreenProps<
-  RootStackParamList,
-  'CreateItem'
->;
+export type CreateItemScreenProps = RootStackScreenProps<'CreateItem'>;
 
 const { width } = Dimensions.get('window');
 const CATEGORIES_LIST = categories.map(category => ({
@@ -88,7 +84,7 @@ export default function CreateItem({
       navigation.pop();
       navigation.pop();
       navigation.navigate('Item', {
-        item: { ..._item, id: ref.id },
+        itemId: ref.id,
         sharedTransitionTag: `Item_${ref.id}`,
       });
     } catch (err) {

@@ -8,13 +8,12 @@ import {
   useTheme,
   HelperText,
 } from 'react-native-paper';
-import type { RootStackParamList } from '../../types';
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { RootStackScreenProps } from '../../types';
 import LinearGradient from 'react-native-linear-gradient';
 import auth from '@react-native-firebase/auth';
 import { useForm, useGoogleSignIn } from '../hooks';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
+type Props = RootStackScreenProps<'Login'>;
 
 export default function Login({ navigation }: Props) {
   const theme = useTheme();

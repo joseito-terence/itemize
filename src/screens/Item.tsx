@@ -10,8 +10,7 @@ import {
   Divider,
   TouchableRipple,
 } from 'react-native-paper';
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../types';
+import { RootStackScreenProps } from '../../types';
 import Animated from 'react-native-reanimated';
 import { sharedElementTransition } from '../components/ItemCard';
 import { useDisclose } from '../hooks';
@@ -22,10 +21,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AddInvoiceActionSheet from '../components/AddInvoiceActionSheet';
 import InvoiceThumbnail from '../components/InvoiceThumbnail';
 
-export type ItemScreenProps = NativeStackScreenProps<
-  RootStackParamList,
-  'Item'
->;
+export type ItemScreenProps = RootStackScreenProps<'Item'>;
 
 const { width } = Dimensions.get('window');
 

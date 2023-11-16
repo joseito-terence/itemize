@@ -6,15 +6,11 @@ import {
 } from 'react-native-vision-camera';
 import { useAppState } from '@react-native-community/hooks';
 import { useIsFocused } from '@react-navigation/native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../types';
+import { RootStackScreenProps } from '../../types';
 import ImagePicker from 'react-native-image-crop-picker';
 import { IconButton } from 'react-native-paper';
 
-export type CameraScreenProps = NativeStackScreenProps<
-  RootStackParamList,
-  'Camera'
->;
+export type CameraScreenProps = RootStackScreenProps<'Camera'>;
 
 export default function Camera({ navigation }: CameraScreenProps) {
   const device = useCameraDevice('back');

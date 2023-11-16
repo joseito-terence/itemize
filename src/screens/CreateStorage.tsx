@@ -8,12 +8,11 @@ import {
   IconButton,
 } from 'react-native-paper';
 import LocationPicker from '../components/LocationPicker';
-import { RootStackParamList, TPlace, TStorage } from '../../types';
+import { RootStackScreenProps, TPlace, TStorage } from '../../types';
 import { useAuthUser, useForm } from '../hooks';
 import firestore from '@react-native-firebase/firestore';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'CreateStorage'>;
+type Props = RootStackScreenProps<'CreateStorage'>;
 
 export default function CreateStorage({ navigation }: Props) {
   const theme = useTheme();

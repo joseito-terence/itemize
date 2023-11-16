@@ -9,6 +9,7 @@ import firebaseStorage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import { useAppDispatch } from '../redux/hooks';
 import { updateItem } from '../redux/itemSlice';
+import Share from 'react-native-share';
 
 type Props = RootStackScreenProps<'InvoiceViewer'>;
 
@@ -51,6 +52,19 @@ export default function InvoiceViewer({ navigation, route }: Props) {
     );
   };
 
+  const onShare = async () => {
+    Share.open({
+      message: invoice.url,
+      type: 'image/jpeg',
+    })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        err && console.log(err);
+      });
+  };
+
   return (
     <View
       className="flex-1"
@@ -85,7 +99,18 @@ export default function InvoiceViewer({ navigation, route }: Props) {
             size={30}
             onPress={onDelete}
           />
-          <IconButton mode="outlined" icon="share-variant" size={30} />
+          <IconButton
+            mode="outlined"
+            icon="download"
+            size={30}
+            onPress={() => {}}
+          />
+          <IconButton
+            mode="outlined"
+            icon="share-variant"
+            size={30}
+            onPress={onShare}
+          />
         </View>
       </View>
     </View>

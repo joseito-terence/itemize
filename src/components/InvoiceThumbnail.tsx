@@ -1,10 +1,10 @@
 import React from 'react';
 import { Image, View } from 'react-native';
-import { TInvoiceImage } from '../../types';
+import { TInvoice } from '../../types';
 import { TouchableRipple } from 'react-native-paper';
 
 interface InvoiceThumbnailProps {
-  invoice: TInvoiceImage;
+  invoice: TInvoice;
 }
 
 const InvoiceThumbnail = ({ invoice }: InvoiceThumbnailProps) => {

@@ -9,7 +9,9 @@ import Animated, {
 import ImagePicker from 'react-native-image-crop-picker';
 import { useAppDispatch } from '../redux/hooks';
 import { updateItem } from '../redux/itemSlice';
-import { TItem } from '../../types';
+import { TInvoice, TItem } from '../../types';
+import { saveImage } from '../helper';
+import firestore from '@react-native-firebase/firestore';
 
 interface Props extends ReturnType<typeof useDisclose> {
   item: TItem;
@@ -36,28 +38,28 @@ export default function AddInvoiceActionSheet({ item, ...props }: Props) {
         cropping: true,
         freeStyleCropEnabled: true,
       });
-      console.log({
-        path: image.path,
+      const invoice = {
+        url: image.path,
         width: image.width,
         height: image.height,
         mime: image.mime,
-      });
+      };
 
-      dispatch(
-        updateItem({
-          ...item,
-          invoice: {
-            url: image.path,
-            width: image.width,
-            height: image.height,
-            mime: image.mime,
-          },
-        }),
-      );
+      dispatch(updateItem({ ...item, invoice }));
+
+      saveInvoice(invoice);
     } catch (error) {
       console.log(error);
     }
     props.close();
+  };
+
+  const saveInvoice = async (invoiceData: TInvoice) => {
+    const imageURl = await saveImage(invoiceData.url);
+    await firestore()
+      .collection('items')
+      .doc(item.id)
+      .update({ invoice: { ...invoiceData, url: imageURl } });
   };
 
   return (

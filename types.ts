@@ -20,6 +20,7 @@ export type RootStackParamList = {
   InvoiceViewer: {
     sharedTransitionTag: string;
     invoice: TInvoice;
+    item: TItem;
   };
 };
 

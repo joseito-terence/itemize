@@ -121,7 +121,7 @@ export default function Item({ navigation, route }: ItemScreenProps) {
 
           <View className="flex-row mb-4" style={{ gap: 16 }}>
             {item?.invoice ? (
-              <InvoiceThumbnail invoice={item.invoice} />
+              <InvoiceThumbnail invoice={item.invoice} item={item} />
             ) : (
               <ActionButton
                 icon="add"

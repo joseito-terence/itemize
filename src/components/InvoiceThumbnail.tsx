@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { TInvoice } from '../../types';
+import { TInvoice, TItem } from '../../types';
 import { TouchableRipple, useTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { ItemScreenProps } from '../screens/Item';
@@ -8,10 +8,11 @@ import Animated from 'react-native-reanimated';
 import { sharedElementTransition } from '../helper';
 
 interface InvoiceThumbnailProps {
+  item: TItem;
   invoice: TInvoice;
 }
 
-const InvoiceThumbnail = ({ invoice }: InvoiceThumbnailProps) => {
+const InvoiceThumbnail = ({ item, invoice }: InvoiceThumbnailProps) => {
   const theme = useTheme();
   const navigation = useNavigation<ItemScreenProps['navigation']>();
   const sharedTransitionTag = `Invoice-${invoice.url}`;
@@ -22,7 +23,11 @@ const InvoiceThumbnail = ({ invoice }: InvoiceThumbnailProps) => {
       style={{ backgroundColor: theme.colors.primary }}>
       <TouchableRipple
         onPress={() =>
-          navigation.navigate('InvoiceViewer', { invoice, sharedTransitionTag })
+          navigation.navigate('InvoiceViewer', {
+            invoice,
+            sharedTransitionTag,
+            item,
+          })
         }
         rippleColor="rgba(0, 0, 0, .32)">
         <View className="w-100 justify-center items-center rounded-lg aspect-square">

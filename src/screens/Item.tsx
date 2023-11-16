@@ -31,11 +31,16 @@ const { width } = Dimensions.get('window');
 
 export default function Item({ navigation, route }: ItemScreenProps) {
   const theme = useTheme();
-  const { sharedTransitionTag, item } = route.params;
+  const { sharedTransitionTag, itemId } = route.params;
+  const item = useAppSelector(state => state.items.find(i => i.id === itemId));
   const storages = useAppSelector(state => state.storages);
-  const storage = storages.find(s => s.id === item.storage);
+  const storage = storages.find(s => s.id === item?.storage);
   const addInvoiceActionSheet = useDisclose();
   const menuDisclose = useDisclose();
+
+  if (!item) {
+    return <></>;
+  }
 
   const deleteItem = async () => {
     try {

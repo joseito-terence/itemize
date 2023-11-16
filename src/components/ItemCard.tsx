@@ -44,7 +44,7 @@ export default function ItemCard({ sharedTransitionTag, item }: Props) {
     <Card
       mode="contained"
       onPress={() =>
-        navigation.navigate('Item', { item, sharedTransitionTag })
+        navigation.navigate('Item', { itemId: item.id, sharedTransitionTag })
       }>
       <Card.Content className="flex-row">
         <Animated.Image

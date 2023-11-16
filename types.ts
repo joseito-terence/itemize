@@ -9,7 +9,7 @@ export type RootStackParamList = {
   Register: undefined;
   Item: {
     sharedTransitionTag: string;
-    item: TItem;
+    itemId: string;
   };
   BottomTabs: NavigatorScreenParams<BottomTabsParamList>;
   Camera: undefined;

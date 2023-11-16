@@ -105,7 +105,11 @@ export default function Item({ navigation, route }: ItemScreenProps) {
           sharedTransitionTag={sharedTransitionTag}
           sharedTransitionStyle={sharedElementTransition}
           source={{ uri: item.image }}
-          style={{ width, height: width, backgroundColor: 'green' }}
+          style={{
+            width,
+            height: width,
+            backgroundColor: theme.colors.primary,
+          }}
           resizeMode="contain"
         />
 

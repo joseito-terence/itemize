@@ -38,11 +38,11 @@ export default function AddInvoiceActionSheet({ item, ...props }: Props) {
         cropping: true,
         freeStyleCropEnabled: true,
       });
-      const invoice = {
+      const invoice: TInvoice = {
         url: image.path,
         width: image.width,
         height: image.height,
-        mime: image.mime,
+        type: 'image',
       };
 
       dispatch(updateItem({ ...item, invoice }));

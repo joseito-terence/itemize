@@ -106,18 +106,21 @@ export default function InvoiceViewer({ navigation, route }: Props) {
             icon="delete"
             size={30}
             onPress={onDelete}
+            iconColor={!theme.dark ? theme.colors.background : undefined}
           />
           <IconButton
             mode="outlined"
             icon="download"
             size={30}
             onPress={() => {}}
+            iconColor={!theme.dark ? theme.colors.background : undefined}
           />
           <IconButton
             mode="outlined"
             icon="share-variant"
             size={30}
             onPress={onShare}
+            iconColor={!theme.dark ? theme.colors.background : undefined}
           />
         </View>
       </View>

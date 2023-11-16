@@ -20,6 +20,7 @@ import firestore from '@react-native-firebase/firestore';
 import { useAppSelector } from '../redux/hooks';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AddInvoiceActionSheet from '../components/AddInvoiceActionSheet';
+import InvoiceThumbnail from '../components/InvoiceThumbnail';
 
 export type ItemScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -114,11 +115,15 @@ export default function Item({ navigation, route }: ItemScreenProps) {
           </View>
 
           <View className="flex-row mb-4" style={{ gap: 16 }}>
-            <ActionButton
-              icon="add"
-              text="Add Invoice"
-              onPress={addInvoiceActionSheet.open}
-            />
+            {item?.invoice ? (
+              <InvoiceThumbnail invoice={item.invoice} />
+            ) : (
+              <ActionButton
+                icon="add"
+                text="Add Invoice"
+                onPress={addInvoiceActionSheet.open}
+              />
+            )}
             <ActionButton
               icon="add-alert"
               text="Add Reminder"
@@ -135,7 +140,7 @@ export default function Item({ navigation, route }: ItemScreenProps) {
           )}
         </View>
       </View>
-      <AddInvoiceActionSheet {...addInvoiceActionSheet} />
+      <AddInvoiceActionSheet item={item} {...addInvoiceActionSheet} />
     </ScrollView>
   );
 }

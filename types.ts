@@ -67,4 +67,12 @@ export type TItem = {
   image: string;
   expiryDate: Date | null;
   userId: string;
+  invoice?: TInvoiceImage;
+};
+
+export type TInvoiceImage = {
+  url: string;
+  width: number;
+  height: number;
+  mime: string;
 };

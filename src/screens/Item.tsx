@@ -12,7 +12,6 @@ import {
 } from 'react-native-paper';
 import { RootStackScreenProps } from '../../types';
 import Animated from 'react-native-reanimated';
-import { sharedElementTransition } from '../components/ItemCard';
 import { useDisclose } from '../hooks';
 import firebaseStorage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
@@ -20,6 +19,7 @@ import { useAppSelector } from '../redux/hooks';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AddInvoiceActionSheet from '../components/AddInvoiceActionSheet';
 import InvoiceThumbnail from '../components/InvoiceThumbnail';
+import { sharedElementTransition } from '../helper';
 
 export type ItemScreenProps = RootStackScreenProps<'Item'>;
 

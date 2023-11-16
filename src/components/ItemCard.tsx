@@ -3,31 +3,10 @@ import React from 'react';
 import { Card, Text, useTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { ItemScreenProps } from '../screens/Item';
-import Animated, {
-  SharedTransition,
-  withSpring,
-} from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import { TItem } from '../../types';
 import { useAppSelector } from '../redux/hooks';
-
-const SPRING_CONFIG = {
-  duration: 350,
-  dampingRatio: 2,
-  stiffness: 100,
-  overshootClamping: false,
-  restDisplacementThreshold: 0.01,
-  restSpeedThreshold: 2,
-};
-
-export const sharedElementTransition = SharedTransition.custom(values => {
-  'worklet';
-  return {
-    height: withSpring(values.targetHeight, SPRING_CONFIG),
-    width: withSpring(values.targetWidth, SPRING_CONFIG),
-    originX: withSpring(values.targetOriginX, SPRING_CONFIG),
-    originY: withSpring(values.targetOriginY, SPRING_CONFIG),
-  };
-});
+import { sharedElementTransition } from '../helper';
 
 interface Props {
   item: TItem;

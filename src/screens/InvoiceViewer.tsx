@@ -2,7 +2,12 @@
 import { Alert, Dimensions, View } from 'react-native';
 import React from 'react';
 import { RootStackScreenProps } from '../../types';
-import Animated from 'react-native-reanimated';
+import Animated, {
+  useAnimatedGestureHandler,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import { sharedElementTransition } from '../helper';
 import { useTheme, IconButton } from 'react-native-paper';
 import firebaseStorage from '@react-native-firebase/storage';
@@ -10,16 +15,20 @@ import firestore from '@react-native-firebase/firestore';
 import { useAppDispatch } from '../redux/hooks';
 import { updateItem } from '../redux/itemSlice';
 import Share from 'react-native-share';
+import {
+  PinchGestureHandler,
+  PinchGestureHandlerGestureEvent,
+} from 'react-native-gesture-handler';
 
 type Props = RootStackScreenProps<'InvoiceViewer'>;
 
 const WIDTH = Dimensions.get('window').width;
 const PADDING = 16 * 2;
+const imageWidth = WIDTH - PADDING;
 
 export default function InvoiceViewer({ navigation, route }: Props) {
   const { sharedTransitionTag, invoice, item } = route.params;
   const theme = useTheme();
-  const imageWidth = WIDTH - PADDING;
   const dispatch = useAppDispatch();
 
   const deleteInvoice = async () => {
@@ -81,12 +90,11 @@ export default function InvoiceViewer({ navigation, route }: Props) {
 
       <View className="flex-1 justify-center items-center">
         {invoice.type === 'image' && (
-          <Animated.Image
+          <Image
+            uri={invoice.url}
+            width={invoice.width}
+            height={invoice.height}
             sharedTransitionTag={sharedTransitionTag}
-            sharedTransitionStyle={sharedElementTransition}
-            source={{ uri: invoice.url }}
-            width={imageWidth}
-            height={imageWidth * (invoice.width / invoice.height)}
           />
         )}
 
@@ -116,3 +124,69 @@ export default function InvoiceViewer({ navigation, route }: Props) {
     </View>
   );
 }
+
+type ImageProps = {
+  uri: string;
+  width: number;
+  height: number;
+  sharedTransitionTag: string;
+};
+
+const Image = ({ uri, width, height, sharedTransitionTag }: ImageProps) => {
+  const scale = useSharedValue(1);
+  const focalX = useSharedValue(0);
+  const focalY = useSharedValue(0);
+  const imageHeight = imageWidth * (width / height);
+
+  const pinchHandler =
+    useAnimatedGestureHandler<PinchGestureHandlerGestureEvent>({
+      onActive: event => {
+        scale.value = event.scale;
+        focalX.value = event.focalX;
+        focalY.value = event.focalY;
+      },
+      onEnd: () => {
+        scale.value = withTiming(1);
+      },
+    });
+
+  const rImageStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        { translateX: focalX.value },
+        { translateY: focalY.value },
+        { translateX: -imageWidth / 2 },
+        { translateY: -imageHeight / 2 },
+        { scale: scale.value },
+        { translateX: -focalX.value },
+        { translateY: -focalY.value },
+        { translateX: imageWidth / 2 },
+        { translateY: imageHeight / 2 },
+      ],
+    };
+  });
+
+  const rFocalPointStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateX: focalX.value }, { translateY: focalY.value }],
+    };
+  });
+  return (
+    <PinchGestureHandler onGestureEvent={pinchHandler}>
+      <Animated.View className="z-10">
+        <Animated.Image
+          sharedTransitionTag={sharedTransitionTag}
+          sharedTransitionStyle={sharedElementTransition}
+          source={{ uri }}
+          width={imageWidth}
+          height={imageHeight}
+          style={rImageStyle}
+        />
+        <Animated.View
+          style={rFocalPointStyle}
+          className="w-[20] h-[20] rounded-full absolute"
+        />
+      </Animated.View>
+    </PinchGestureHandler>
+  );
+};

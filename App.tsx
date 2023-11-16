@@ -49,7 +49,11 @@ function App(): JSX.Element {
               <Stack.Screen name="Camera" component={Camera} />
               <Stack.Screen name="CreateItem" component={CreateItem} />
               <Stack.Screen name="CreateStorage" component={CreateStorage} />
-              <Stack.Screen name="InvoiceViewer" component={InvoiceViewer} />
+              <Stack.Screen
+                name="InvoiceViewer"
+                component={InvoiceViewer}
+                options={{ presentation: 'transparentModal' }}
+              />
             </>
           )}
         </Stack.Navigator>

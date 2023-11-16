@@ -18,6 +18,7 @@ export type RootStackParamList = {
   };
   CreateStorage: undefined;
   InvoiceViewer: {
+    sharedTransitionTag: string;
     invoice: TInvoice;
   };
 };
@@ -82,9 +83,10 @@ export type TInvoiceImage = {
   url: string;
   width: number;
   height: number;
-  mime: string;
+  type: 'image';
 };
 
 export type TInvoicePDF = {
   url: string;
+  type: 'pdf';
 };

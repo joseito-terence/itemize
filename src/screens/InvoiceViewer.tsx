@@ -8,7 +8,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { shareWithAndroid, sharedElementTransition } from '../helper';
+import { download, shareWithAndroid, sharedElementTransition } from '../helper';
 import { useTheme, IconButton } from 'react-native-paper';
 import firebaseStorage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
@@ -30,6 +30,7 @@ export default function InvoiceViewer({ navigation, route }: Props) {
   const theme = useTheme();
   const dispatch = useAppDispatch();
   const [isSharing, setIsSharing] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const deleteInvoice = async () => {
     dispatch(updateItem({ ...item, invoice: undefined }));
@@ -71,6 +72,16 @@ export default function InvoiceViewer({ navigation, route }: Props) {
     });
   };
 
+  const onDownload = () => {
+    if (isDownloading) {
+      return;
+    }
+    setIsDownloading(true);
+    download(invoice.url).finally(() => {
+      setIsDownloading(false);
+    });
+  };
+
   return (
     <View
       className="flex-1"
@@ -109,7 +120,7 @@ export default function InvoiceViewer({ navigation, route }: Props) {
             mode="outlined"
             icon="download"
             size={30}
-            onPress={() => {}}
+            onPress={onDownload}
             iconColor={!theme.dark ? theme.colors.background : undefined}
           />
           <IconButton

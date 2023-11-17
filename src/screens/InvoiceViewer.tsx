@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import { Alert, Dimensions, View } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { RootStackScreenProps } from '../../types';
 import Animated, {
   useAnimatedGestureHandler,
@@ -8,13 +8,12 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { sharedElementTransition } from '../helper';
+import { shareWithAndroid, sharedElementTransition } from '../helper';
 import { useTheme, IconButton } from 'react-native-paper';
 import firebaseStorage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import { useAppDispatch } from '../redux/hooks';
 import { updateItem } from '../redux/itemSlice';
-import Share from 'react-native-share';
 import {
   PinchGestureHandler,
   PinchGestureHandlerGestureEvent,
@@ -30,6 +29,7 @@ export default function InvoiceViewer({ navigation, route }: Props) {
   const { sharedTransitionTag, invoice, item } = route.params;
   const theme = useTheme();
   const dispatch = useAppDispatch();
+  const [isSharing, setIsSharing] = useState(false);
 
   const deleteInvoice = async () => {
     dispatch(updateItem({ ...item, invoice: undefined }));
@@ -61,17 +61,14 @@ export default function InvoiceViewer({ navigation, route }: Props) {
     );
   };
 
-  const onShare = async () => {
-    Share.open({
-      message: invoice.url,
-      type: 'image/jpeg',
-    })
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        err && console.log(err);
-      });
+  const onShare = () => {
+    if (isSharing) {
+      return;
+    }
+    setIsSharing(true);
+    shareWithAndroid(invoice.url, 'image/jpeg').finally(() => {
+      setIsSharing(false);
+    });
   };
 
   return (

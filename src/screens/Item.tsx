@@ -20,6 +20,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AddInvoiceActionSheet from '../components/AddInvoiceActionSheet';
 import InvoiceThumbnail from '../components/InvoiceThumbnail';
 import { sharedElementTransition } from '../helper';
+import ReminderModal from '../components/ReminderModal';
 
 export type ItemScreenProps = RootStackScreenProps<'Item'>;
 
@@ -33,6 +34,7 @@ export default function Item({ navigation, route }: ItemScreenProps) {
   const storage = storages.find(s => s.id === item?.storage);
   const addInvoiceActionSheet = useDisclose();
   const menuDisclose = useDisclose();
+  const reminderDisclose = useDisclose();
 
   if (!item) {
     return <></>;
@@ -132,7 +134,7 @@ export default function Item({ navigation, route }: ItemScreenProps) {
             <ActionButton
               icon="add-alert"
               text="Add Reminder"
-              onPress={() => console.log('hey')}
+              onPress={reminderDisclose.open}
             />
           </View>
 
@@ -146,6 +148,7 @@ export default function Item({ navigation, route }: ItemScreenProps) {
         </View>
       </View>
       <AddInvoiceActionSheet item={item} {...addInvoiceActionSheet} />
+      <ReminderModal item={item} {...reminderDisclose} />
     </ScrollView>
   );
 }

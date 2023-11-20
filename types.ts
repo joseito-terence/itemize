@@ -76,6 +76,13 @@ export type TItem = {
   expiryDate: Date | null;
   userId: string;
   invoice?: TInvoice;
+  reminder?: TReminder;
+};
+
+export type TReminder = {
+  title: string;
+  date: string;
+  time: string;
 };
 
 export type TInvoice = TInvoiceImage | TInvoicePDF;

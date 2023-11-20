@@ -8,7 +8,6 @@ import {
   useTheme,
   Menu,
   Divider,
-  TouchableRipple,
 } from 'react-native-paper';
 import { RootStackScreenProps } from '../../types';
 import Animated from 'react-native-reanimated';
@@ -16,11 +15,11 @@ import { useDisclose } from '../hooks';
 import firebaseStorage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import { useAppSelector } from '../redux/hooks';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AddInvoiceActionSheet from '../components/AddInvoiceActionSheet';
 import InvoiceThumbnail from '../components/InvoiceThumbnail';
 import { sharedElementTransition } from '../helper';
 import ReminderModal from '../components/ReminderModal';
+import ItemActionButton from '../components/ItemActionButton';
 
 export type ItemScreenProps = RootStackScreenProps<'Item'>;
 
@@ -34,7 +33,6 @@ export default function Item({ navigation, route }: ItemScreenProps) {
   const storage = storages.find(s => s.id === item?.storage);
   const addInvoiceActionSheet = useDisclose();
   const menuDisclose = useDisclose();
-  const reminderDisclose = useDisclose();
 
   if (!item) {
     return <></>;
@@ -125,17 +123,13 @@ export default function Item({ navigation, route }: ItemScreenProps) {
             {item?.invoice ? (
               <InvoiceThumbnail invoice={item.invoice} item={item} />
             ) : (
-              <ActionButton
+              <ItemActionButton
                 icon="add"
                 text="Add Invoice"
                 onPress={addInvoiceActionSheet.open}
               />
             )}
-            <ActionButton
-              icon="add-alert"
-              text="Add Reminder"
-              onPress={reminderDisclose.open}
-            />
+            <ReminderModal item={item} />
           </View>
 
           {item.description && (
@@ -148,36 +142,9 @@ export default function Item({ navigation, route }: ItemScreenProps) {
         </View>
       </View>
       <AddInvoiceActionSheet item={item} {...addInvoiceActionSheet} />
-      <ReminderModal item={item} {...reminderDisclose} />
     </ScrollView>
   );
 }
-
-interface ActionButtonProps {
-  icon: string;
-  text: string;
-  onPress: () => void;
-}
-
-const ActionButton = ({ icon, text, onPress }: ActionButtonProps) => {
-  const theme = useTheme();
-  return (
-    <View
-      className="flex-1 rounded-lg"
-      style={{ backgroundColor: theme.colors.primary }}>
-      <TouchableRipple onPress={onPress} rippleColor={theme.colors.onPrimary}>
-        <View
-          className="w-100 justify-center items-center rounded-lg aspect-square"
-          style={{ rowGap: 8 }}>
-          <MaterialIcons name={icon} size={40} color={theme.colors.onPrimary} />
-          <Text variant="bodyLarge" style={{ color: theme.colors.onPrimary }}>
-            {text}
-          </Text>
-        </View>
-      </TouchableRipple>
-    </View>
-  );
-};
 
 const Info = ({ title = '', text = '' }) => {
   const theme = useTheme();

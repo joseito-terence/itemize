@@ -72,7 +72,11 @@ export const download = async (url: string, isTemp = false) => {
         RNFS.DownloadDirectoryPath + '/invoice.' + getFileExtension(url),
         base64Data,
         'base64',
-      ).then(() => ToastAndroid.show('File downloaded', ToastAndroid.SHORT));
+      )
+        .then(() => ToastAndroid.show('File downloaded', ToastAndroid.SHORT))
+        .catch(() =>
+          ToastAndroid.show('Error downloading file', ToastAndroid.SHORT),
+        );
     })
     .catch(err => {
       console.log(err);
@@ -84,10 +88,15 @@ export const shareWithAndroid = async (fileUrl: string, type: string) => {
     if (!res) {
       return;
     }
-    const { base64Data, filePath } = res;
-    const base64 = `data:${type};base64,` + base64Data;
-    await Share.open({ url: base64 });
-    // remove the image or pdf from device's storage
-    await RNFS.unlink(filePath);
+
+    try {
+      const { base64Data, filePath } = res;
+      const base64 = `data:${type};base64,` + base64Data;
+      await Share.open({ url: base64 });
+      // remove the image or pdf from device's storage
+      await RNFS.unlink(filePath);
+    } catch (err) {
+      console.log(err);
+    }
   });
 };

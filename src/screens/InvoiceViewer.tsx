@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import { Alert, Dimensions, View } from 'react-native';
+import { Alert, Dimensions, ToastAndroid, View } from 'react-native';
 import React, { useState } from 'react';
 import { RootStackScreenProps } from '../../types';
 import Animated, {
@@ -67,6 +67,7 @@ export default function InvoiceViewer({ navigation, route }: Props) {
       return;
     }
     setIsSharing(true);
+    ToastAndroid.show('Downloading...', ToastAndroid.SHORT);
     shareWithAndroid(invoice.url, 'image/jpeg').finally(() => {
       setIsSharing(false);
     });
@@ -77,6 +78,7 @@ export default function InvoiceViewer({ navigation, route }: Props) {
       return;
     }
     setIsDownloading(true);
+    ToastAndroid.show('Downloading...', ToastAndroid.SHORT);
     download(invoice.url).finally(() => {
       setIsDownloading(false);
     });

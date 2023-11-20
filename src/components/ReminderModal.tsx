@@ -19,6 +19,7 @@ import { useAppDispatch } from '../redux/hooks';
 import { updateItem } from '../redux/itemSlice';
 import ItemActionButton from './ItemActionButton';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import firestore from '@react-native-firebase/firestore';
 
 interface disclose {
   item: TItem;
@@ -50,16 +51,15 @@ export default function ReminderModal({ item }: disclose) {
     }
     setLoading(true);
 
-    dispatch(
-      updateItem({
-        ...item,
-        reminder: {
-          title: formState.title,
-          date: dayjs(formState.date).format('DD-MM-YYYY'),
-          time: dayjs(formState.time).format('HH:mm'),
-        },
-      }),
-    );
+    const reminder = {
+      title: formState.title,
+      date: dayjs(formState.date).format('DD-MM-YYYY'),
+      time: dayjs(formState.time).format('HH:mm'),
+    };
+
+    dispatch(updateItem({ ...item, reminder }));
+
+    await firestore().collection('items').doc(item.id).update({ reminder });
 
     setLoading(false);
     disclose.close();

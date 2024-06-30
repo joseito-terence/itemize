@@ -1,15 +1,20 @@
-This is a [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
-
 # Itemize
-
 "ITEMIZE" is your ultimate home inventory management system, streamlining the way you organize living spaces.
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+![itemize](https://github.com/joseito-terence/itemize/assets/74445627/793182b0-6be4-4ba8-bb23-91380dbd3e17)
 
-## Screenshots
-
+## Technologies
+- [React Native](https://reactnative.dev/)
+- [Firebase](https://firebase.google.com/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [React Native Paper](https://reactnativepaper.com/)
+- [Nativewind](https://www.nativewind.dev/)
+- [Redux Toolkit](https://redux-toolkit.js.org/)
 
 ## Step 1: Start the Metro Server
+
+This is a [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+>**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
 
 First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
 
